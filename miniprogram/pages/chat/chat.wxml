@@ -1,0 +1,40 @@
+<!-- chat.wxml - 好友聊天页面 v2.0 新增 -->
+<view class="container">
+  <view wx:if="{{isLoading && messages.length === 0}}" class="loading-container">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:if="{{friend}}" class="chat-container">
+    <!-- 消息列表 -->
+    <view class="messages-list mt-20">
+      <view 
+        wx:for="{{messages}}" 
+        wx:key="id" 
+        class="message-item {{item.isSelf ? 'self' : 'other'}}"
+      >
+        <view class="message-content {{item.isSelf ? 'self' : 'other'}}">
+          {{item.content}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 空消息提示 -->
+    <view wx:if="{{messages.length === 0 && !isLoading}}" class="empty-state card text-center mt-20">
+      <text class="text-muted">还没有消息，开始聊天吧~</text>
+    </view>
+
+    <!-- 底部输入框 -->
+    <view class="input-container">
+      <input 
+        class="message-input" 
+        placeholder="输入消息..." 
+        value="{{inputValue}}"
+        bindinput="onInputChange"
+        confirm-type="send"
+        bindconfirm="sendMessage"
+        maxlength="500"
+      />
+      <button class="send-btn" bindtap="sendMessage">发送</button>
+    </view>
+  </view>
+</view>

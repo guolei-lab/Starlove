@@ -1,0 +1,159 @@
+/* StarLove - 全局样式 v2.0 */
+page {
+  background-color: #FFF5F7;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* 通用容器 */
+.container {
+  padding: 20rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 通用按钮样式 */
+.btn-primary {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  color: white;
+  border-radius: 50rpx;
+  padding: 24rpx 48rpx;
+  font-size: 32rpx;
+  border: none;
+  box-shadow: 0 8rpx 16rpx rgba(255, 105, 180, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 8rpx rgba(255, 105, 180, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #FF69B4;
+  border: 2rpx solid #FF69B4;
+  border-radius: 50rpx;
+  padding: 22rpx 46rpx;
+  font-size: 32rpx;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:active {
+  background: #FF69B4;
+  color: white;
+}
+
+/* 卡片样式 */
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin: 20rpx 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 文本样式 */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 间距工具类 */
+.mt-10 { margin-top: 10rpx; }
+.mt-20 { margin-top: 20rpx; }
+.mt-30 { margin-top: 30rpx; }
+.mt-40 { margin-top: 40rpx; }
+.mb-10 { margin-bottom: 10rpx; }
+.mb-20 { margin-bottom: 20rpx; }
+.ml-20 { margin-left: 20rpx; }
+
+/* 弹性布局 */
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* 头像样式 */
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-lg {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.avatar-xl {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+/* 加载容器 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  min-height: 60vh;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  background: #FFF0F5;
+  color: #FF69B4;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  margin: 8rpx 10rpx 8rpx 0;
+}
+
+.tag.active {
+  background: #FF69B4;
+  color: white;
+}
+
+/* 通用动画 */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

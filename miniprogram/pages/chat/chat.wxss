@@ -1,0 +1,75 @@
+/* chat.wxss - 好友聊天样式 */
+.chat-container {
+  padding-bottom: 140rpx;
+}
+
+.messages-list {
+  min-height: 400rpx;
+  padding: 0 10rpx;
+}
+
+.message-item {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.message-item.self {
+  justify-content: flex-end;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 20rpx 24rpx;
+  border-radius: 20rpx;
+  background: white;
+  color: #333;
+  font-size: 28rpx;
+  line-height: 1.5;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.message-content.self {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  color: white;
+}
+
+.message-content.other {
+  background: white;
+  color: #333;
+}
+
+.input-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: white;
+  border-top: 1rpx solid #eee;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.message-input {
+  flex-grow: 1;
+  min-height: 70rpx;
+  padding: 16rpx 20rpx;
+  background: #f5f5f5;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+  margin-right: 20rpx;
+}
+
+.send-btn {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  color: white;
+  border-radius: 35rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.empty-state {
+  padding: 60rpx 20rpx;
+}

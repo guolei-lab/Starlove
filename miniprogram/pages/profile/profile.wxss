@@ -1,0 +1,132 @@
+/* profile.wxss - 个人中心样式 */
+.profile-header {
+  margin: 0;
+}
+
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.user-desc {
+  font-size: 26rpx;
+}
+
+.statistics-card {
+  margin: 0;
+}
+
+.statistics-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+.statistics-list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.statistics-item {
+  flex: 1;
+}
+
+.statistics-number {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8rpx;
+}
+
+.statistics-label {
+  display: block;
+  font-size: 24rpx;
+}
+
+.friends-section {
+  padding: 0 10rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  margin: 10rpx 0;
+  transition: all 0.3s ease;
+}
+
+.friend-item:active {
+  transform: scale(0.98);
+}
+
+.friend-avatar {
+  margin-right: 20rpx;
+}
+
+.friend-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.friend-name {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.friend-time {
+  font-size: 24rpx;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 32rpx;
+}
+
+.empty-state {
+  padding: 60rpx 20rpx;
+}
+
+.empty-text {
+  line-height: 1.8;
+  font-size: 28rpx;
+}
+
+.menu-section {
+  margin-top: 40rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  margin: 0;
+}
+
+.menu-text {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.logout-text {
+  color: #ff4d4f;
+}

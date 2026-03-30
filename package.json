@@ -1,0 +1,34 @@
+{
+  "name": "starlove",
+  "version": "2.0.0",
+  "description": "StarLove - 年轻人温暖社交微信小程序",
+  "main": "miniprogram/app.js",
+  "scripts": {
+    "deploy:functions": "npm run deploy:matchUser && npm run deploy:sendMessage && npm run deploy:addFriend && npm run deploy:getUserInfo && npm run deploy:getFriends",
+    "deploy:matchUser": "cd cloudfunctions/matchUser && npm install && cd ../..",
+    "deploy:sendMessage": "cd cloudfunctions/sendMessage && npm install && cd ../..",
+    "deploy:addFriend": "cd cloudfunctions/addFriend && npm install && cd ../..",
+    "deploy:getUserInfo": "cd cloudfunctions/getUserInfo && npm install && cd ../..",
+    "deploy:getFriends": "cd cloudfunctions/getFriends && npm install && cd ../..",
+    "install:all": "npm run deploy:functions",
+    "lint": "eslint miniprogram/**/*.js cloudfunctions/**/*.js",
+    "fix": "eslint miniprogram/**/*.js cloudfunctions/**/*.js --fix"
+  },
+  "keywords": [
+    "wechat",
+    "miniprogram",
+    "social",
+    "dating",
+    "young"
+  ],
+  "author": "guolei-lab",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^3.0.0"
+  }
+}
