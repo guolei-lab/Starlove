@@ -1,220 +1,159 @@
-/* 年轻人社交微信小程序 - 全局样式 */
+/* StarLove - 全局样式 v2.0 */
 page {
-  background: linear-gradient(135deg, #FFF5E1 0%, #FFE4B5 50%, #FFD700 100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-  color: #333;
+  background-color: #FFF5F7;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
+/* 通用容器 */
 .container {
   padding: 20rpx;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
-/* 温暖的按钮样式 */
-.btn-warm {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+/* 通用按钮样式 */
+.btn-primary {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
   color: white;
-  border: none;
   border-radius: 50rpx;
+  padding: 24rpx 48rpx;
   font-size: 32rpx;
-  font-weight: bold;
-  box-shadow: 0 10rpx 30rpx rgba(255, 215, 0, 0.4);
+  border: none;
+  box-shadow: 0 8rpx 16rpx rgba(255, 105, 180, 0.3);
   transition: all 0.3s ease;
 }
 
-.btn-warm:active {
-  transform: scale(0.95);
-  box-shadow: 0 5rpx 15rpx rgba(255, 215, 0, 0.3);
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 8rpx rgba(255, 105, 180, 0.3);
 }
 
-.btn-warm:disabled {
-  opacity: 0.6;
-  background: #ccc;
-  box-shadow: none;
-  transform: none;
+.btn-outline {
+  background: transparent;
+  color: #FF69B4;
+  border: 2rpx solid #FF69B4;
+  border-radius: 50rpx;
+  padding: 22rpx 46rpx;
+  font-size: 32rpx;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:active {
+  background: #FF69B4;
+  color: white;
 }
 
 /* 卡片样式 */
 .card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 30rpx;
-  padding: 30rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin: 20rpx 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
 }
 
-/* 文字样式 */
-.title {
-  font-size: 48rpx;
-  font-weight: bold;
+/* 文本样式 */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 间距工具类 */
+.mt-10 { margin-top: 10rpx; }
+.mt-20 { margin-top: 20rpx; }
+.mt-30 { margin-top: 30rpx; }
+.mt-40 { margin-top: 40rpx; }
+.mb-10 { margin-bottom: 10rpx; }
+.mb-20 { margin-bottom: 20rpx; }
+.ml-20 { margin-left: 20rpx; }
+
+/* 弹性布局 */
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* 头像样式 */
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-lg {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.avatar-xl {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+/* 加载容器 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  min-height: 60vh;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  background: #FFF0F5;
   color: #FF69B4;
-  text-align: center;
-  margin-bottom: 20rpx;
-  text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.1);
-}
-
-.subtitle {
-  font-size: 28rpx;
-  color: #FF8C00;
-  text-align: center;
-  margin-bottom: 30rpx;
-}
-
-.text {
-  font-size: 28rpx;
-  line-height: 1.6;
-  color: #666;
-}
-
-/* 加载动画 */
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 100rpx;
-}
-
-.loading-spinner {
-  width: 60rpx;
-  height: 60rpx;
-  border: 6rpx solid rgba(255, 215, 0, 0.3);
-  border-top: 6rpx solid #FFD700;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* 匹配动画 */
-.match-animation {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 400rpx;
-  margin: 50rpx 0;
-}
-
-.match-heart {
-  width: 100rpx;
-  height: 100rpx;
-  background: #FF69B4;
-  position: relative;
-  transform: rotate(45deg);
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-.match-heart::before,
-.match-heart::after {
-  content: '';
-  width: 100rpx;
-  height: 100rpx;
-  background: #FF69B4;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.match-heart::before {
-  left: -50rpx;
-}
-
-.match-heart::after {
-  top: -50rpx;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: rotate(45deg) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: rotate(45deg) scale(1.3);
-    opacity: 0.8;
-  }
-}
-
-/* 广告位样式 */
-.ad-container {
-  background: rgba(255, 215, 0, 0.1);
-  border-radius: 20rpx;
-  padding: 20rpx;
-  margin-top: 20rpx;
-  text-align: center;
-}
-
-.ad-text {
+  border-radius: 30rpx;
   font-size: 24rpx;
-  color: #FF8C00;
-  margin-bottom: 10rpx;
+  margin: 8rpx 10rpx 8rpx 0;
 }
 
-.ad-btn {
+.tag.active {
   background: #FF69B4;
   color: white;
-  border: none;
-  border-radius: 50rpx;
-  font-size: 28rpx;
-  padding: 10rpx 30rpx;
-  box-shadow: 0 5rpx 15rpx rgba(255, 105, 180, 0.3);
-  transition: all 0.3s ease;
 }
 
-.ad-btn:active {
-  transform: scale(0.95);
+/* 通用动画 */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
 }
 
-/* 聊天气泡 */
-.chat-bubble {
-  max-width: 70%;
-  padding: 20rpx;
-  border-radius: 20rpx;
-  margin-bottom: 20rpx;
-  position: relative;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.chat-bubble.left {
-  background: #E5E5EA;
-  color: #000;
-  margin-right: auto;
-  border-bottom-left-radius: 5rpx;
+.scale-in {
+  animation: scaleIn 0.2s ease-out;
 }
 
-.chat-bubble.right {
-  background: #FFD700;
-  color: #000;
-  margin-left: auto;
-  border-bottom-right-radius: 5rpx;
-}
-
-/* 倒计时样式 */
-.countdown {
-  background: #FF69B4;
-  color: white;
-  padding: 15rpx 30rpx;
-  border-radius: 50rpx;
-  font-size: 32rpx;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 5rpx 15rpx rgba(255, 105, 180, 0.3);
-}
-
-/* 悬浮按钮 */
-.floating-btn {
-  position: fixed;
-  bottom: 60rpx;
-  right: 60rpx;
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 50%;
-  background: #FFD700;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 10rpx 30rpx rgba(255, 215, 0, 0.5);
-  font-size: 40rpx;
-  z-index: 1000;
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

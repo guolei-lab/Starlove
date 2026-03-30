@@ -1,208 +1,132 @@
-/* 年轻人社交微信小程序 - 个人中心页面样式 */
-.container {
-  padding: 40rpx 30rpx;
+/* profile.wxss - 个人中心样式 */
+.profile-header {
+  margin: 0;
 }
 
-/* 用户信息区域 */
-.user-info {
+.user-info-text {
   display: flex;
-  align-items: center;
-  padding: 60rpx 40rpx;
-  margin-bottom: 40rpx;
-}
-
-.user-avatar {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50%;
-  margin-right: 30rpx;
-  border: 4rpx solid #FFD700;
-}
-
-.user-details {
-  flex: 1;
+  flex-direction: column;
 }
 
 .user-name {
-  font-size: 40rpx;
+  font-size: 36rpx;
   font-weight: bold;
   color: #333;
-  margin-bottom: 10rpx;
+  margin-bottom: 8rpx;
 }
 
-.user-id {
-  font-size: 24rpx;
-  color: #666;
-  margin-bottom: 20rpx;
-  opacity: 0.8;
+.user-desc {
+  font-size: 26rpx;
 }
 
-.user-match-count {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 215, 0, 0.1);
-  padding: 15rpx 20rpx;
-  border-radius: 50rpx;
+.statistics-card {
+  margin: 0;
 }
 
-.count-label {
-  font-size: 24rpx;
-  color: #666;
-  margin-right: 10rpx;
-}
-
-.count-value {
-  font-size: 28rpx;
+.statistics-title {
+  font-size: 30rpx;
   font-weight: bold;
-  color: #FF69B4;
+  color: #333;
+  margin-bottom: 24rpx;
 }
 
-/* 匹配历史 */
-.match-history {
-  margin-bottom: 40rpx;
+.statistics-list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.statistics-item {
+  flex: 1;
+}
+
+.statistics-number {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8rpx;
+}
+
+.statistics-label {
+  display: block;
+  font-size: 24rpx;
+}
+
+.friends-section {
+  padding: 0 10rpx;
 }
 
 .section-title {
-  font-size: 36rpx;
+  font-size: 32rpx;
   font-weight: bold;
-  color: #FF69B4;
-  margin-bottom: 30rpx;
-  text-align: left;
+  color: #333;
+  margin-bottom: 20rpx;
 }
 
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.history-item {
+.friend-item {
   display: flex;
   align-items: center;
   padding: 20rpx;
-  background: rgba(255, 215, 0, 0.05);
-  border-radius: 20rpx;
+  margin: 10rpx 0;
   transition: all 0.3s ease;
 }
 
-.history-item:active {
-  background: rgba(255, 215, 0, 0.1);
+.friend-item:active {
+  transform: scale(0.98);
 }
 
-.match-avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
+.friend-avatar {
   margin-right: 20rpx;
-  border: 2rpx solid #FFD700;
 }
 
-.match-details {
-  flex: 1;
-}
-
-.match-name {
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5rpx;
-}
-
-.match-time {
-  font-size: 20rpx;
-  color: #666;
-  margin-bottom: 5rpx;
-}
-
-.match-status {
-  font-size: 20rpx;
-  font-weight: bold;
-  padding: 5rpx 10rpx;
-  border-radius: 10rpx;
-  display: inline-block;
-}
-
-.match-status.friend {
-  background: rgba(255, 105, 180, 0.1);
-  color: #FF69B4;
-}
-
-.match-status.matched {
-  background: rgba(255, 215, 0, 0.1);
-  color: #FF8C00;
-}
-
-.match-actions {
-  margin-left: 20rpx;
-}
-
-.action-btn {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  color: white;
-  border: none;
-  border-radius: 50rpx;
-  font-size: 20rpx;
-  padding: 10rpx 20rpx;
-  box-shadow: 0 5rpx 15rpx rgba(255, 215, 0, 0.3);
-}
-
-.action-btn:active {
-  transform: scale(0.95);
-}
-
-/* 设置区域 */
-.settings {
-  margin-bottom: 40rpx;
-}
-
-.settings-list {
+.friend-info {
   display: flex;
   flex-direction: column;
-  gap: 10rpx;
 }
 
-.setting-item {
-  display: flex;
-  align-items: center;
-  padding: 30rpx 20rpx;
-  background: rgba(255, 215, 0, 0.05);
-  border-radius: 20rpx;
-  transition: all 0.3s ease;
-}
-
-.setting-item:active {
-  background: rgba(255, 215, 0, 0.1);
-}
-
-.setting-icon {
-  font-size: 36rpx;
-  margin-right: 20rpx;
-  width: 40rpx;
-}
-
-.setting-text {
-  flex: 1;
-  font-size: 28rpx;
+.friend-name {
+  font-size: 30rpx;
   color: #333;
+  margin-bottom: 8rpx;
 }
 
-.setting-arrow {
-  font-size: 28rpx;
-  color: #999;
+.friend-time {
+  font-size: 24rpx;
 }
 
-/* 退出登录 */
-.logout-btn {
-  background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-  color: white;
-  border: none;
-  border-radius: 50rpx;
+.arrow {
+  color: #ccc;
   font-size: 32rpx;
-  padding: 30rpx;
-  box-shadow: 0 10rpx 30rpx rgba(255, 105, 180, 0.3);
+}
+
+.empty-state {
+  padding: 60rpx 20rpx;
+}
+
+.empty-text {
+  line-height: 1.8;
+  font-size: 28rpx;
+}
+
+.menu-section {
   margin-top: 40rpx;
 }
 
-.logout-btn:active {
-  transform: scale(0.95);
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  margin: 0;
+}
+
+.menu-text {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.logout-text {
+  color: #ff4d4f;
 }

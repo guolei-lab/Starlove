@@ -1,83 +1,64 @@
-<!-- 年轻人社交微信小程序 - 首页 -->
+<!--index.wxml - 首页 v2.0-->
 <view class="container">
-  <!-- 标题区域 -->
-  <view class="header">
-    <view class="title">温暖社交</view>
-    <view class="subtitle">遇见你，是最美的意外</view>
+  <!-- 未登录状态 -->
+  <view wx:if="{{!isLogin}}" class="login-container text-center mt-30">
+    <view class="logo-container">
+      <text class="logo-text">StarLove</text>
+      <text class="slogan">遇见你，是最美的意外</text>
+    </view>
+    
+    <view class="login-card card mt-30 scale-in">
+      <image class="login-image" src="/images/welcome.png" mode="aspectFit"></image>
+      <text class="login-title">开启你的温暖邂逅</text>
+      <text class="login-desc text-muted">一键登录，认识有趣的新朋友</text>
+      
+      <button class="btn-primary mt-30" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+        微信授权登录
+      </button>
+    </view>
   </view>
 
-  <!-- 用户登录区域 -->
-  <view class="login-section card" wx:if="{{!isLogin}}">
-    <view class="text">开启你的温暖社交之旅</view>
-    <button class="btn-warm login-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
-      <text class="btn-text">微信授权登录</text>
-    </button>
-  </view>
-
-  <!-- 匹配区域 -->
-  <view class="match-section card" wx:if="{{isLogin}}">
-    <view class="match-info">
-      <view class="match-count">
-        <text class="count-number">{{matchCount}}</text>
-        <text class="count-text">/ {{maxMatchCount}}</text>
+  <!-- 已登录状态 -->
+  <view wx:if="{{isLogin}}" class="home-container fade-in">
+    <!-- 用户信息卡片 -->
+    <view class="user-card card">
+      <view class="user-info flex-center">
+        <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-details ml-20">
+          <text class="user-name">{{userInfo.nickName}}</text>
+          <text class="match-count text-muted">今日剩余匹配次数: {{matchCount}}/{{maxMatchCount}}</text>
+        </view>
+        <view class="flex-grow"></view>
+        <button class="btn-outline" bindtap="goToProfile">我的</button>
       </view>
-      <view class="match-label">今日匹配次数</view>
     </view>
 
-    <!-- 匹配按钮 -->
-    <button class="btn-warm match-btn" bindtap="startMatch" disabled="{{isMatching}}">
-      <text wx:if="{{!isMatching}}">
-        {{matchCount > 0 ? '开始匹配' : '观看广告增加次数'}}
+    <!-- 热门话题 -->
+    <view class="topics-section mt-20">
+      <view class="section-title">热门话题</view>
+      <view class="topics-list">
+        <view wx:for="{{hotTopics}}" wx:key="id" class="topic-item card">
+          <text class="topic-title">{{item.title}}</text>
+          <text class="topic-count text-muted">{{item.count}} 人在聊</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 开始匹配按钮 -->
+    <view class="match-section mt-40 text-center">
+      <button 
+        class="btn-primary match-btn {{isMatching ? 'matching' : ''}}" 
+        bindtap="startMatch"
+        disabled="{{isMatching}}"
+      >
+        {{isMatching ? '匹配中...' : '开始匹配'}}
+      </button>
+      <text wx:if="{{matchCount <= 5 && matchCount > 0}}" class="match-tip text-muted">
+        剩余次数不多啦，看完广告可以获得更多次数哦
       </text>
-      <text wx:if="{{isMatching}}">
-        <view class="loading-spinner"></view>
-        匹配中...
+      <text wx:if="{{matchCount <= 0}}" class="match-tip text-muted">
+        今日次数已用完，观看广告增加次数
       </text>
-    </button>
-
-    <!-- 广告位 -->
-    <view class="ad-container" wx:if="{{matchCount <= 0}}">
-      <view class="ad-text">免费匹配次数用完了？</view>
-      <button class="ad-btn" bindtap="showAd">观看广告 +1 次</button>
-    </view>
-
-    <!-- 匹配规则说明 -->
-    <view class="match-rules">
-      <view class="rule-item">
-        <text class="rule-icon">💬</text>
-        <text class="rule-text">支持在线聊天3分钟</text>
-      </view>
-      <view class="rule-item">
-        <text class="rule-icon">🤝</text>
-        <text class="rule-text">聊天结束后可添加好友</text>
-      </view>
-      <view class="rule-item">
-        <text class="rule-icon">🎥</text>
-        <text class="rule-text">观看广告增加匹配次数</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 热门话题 -->
-  <view class="hot-topics card" wx:if="{{isLogin}}">
-    <view class="section-title">热门话题</view>
-    <view class="topic-list">
-      <view class="topic-item" wx:for="{{hotTopics}}" wx:key="id">
-        <text class="topic-text">{{item.title}}</text>
-        <text class="topic-count">{{item.count}}人参与</text>
-      </view>
-    </view>
-  </view>
-
-  <view class="card" wx:if="{{showBannerAd}}">
-    <ad unit-id="{{adSlots.indexBanner}}" ad-type="banner" ad-theme="white"></ad>
-  </view>
-
-  <!-- 底部导航 -->
-  <view class="footer">
-    <view class="footer-item" bindtap="goToProfile">
-      <text class="footer-icon">👤</text>
-      <text class="footer-text">个人中心</text>
     </view>
   </view>
 </view>

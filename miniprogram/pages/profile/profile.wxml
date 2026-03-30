@@ -1,103 +1,70 @@
-<!-- 年轻人社交微信小程序 - 个人中心页面 -->
+<!-- profile.wxml - 个人中心 v2.0 -->
 <view class="container">
-  <!-- 用户信息区域 -->
-  <view class="user-info card">
-    <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-    <view class="user-details">
-      <view class="user-name">{{userInfo.nickName}}</view>
-      <view class="user-id">ID: {{userId}}</view>
-      <view class="user-match-count">
-        <text class="count-label">今日匹配次数:</text>
-        <text class="count-value">{{matchCount}}/{{maxMatchCount}}</text>
+  <!-- 用户信息头部 -->
+  <view wx:if="{{userInfo}}" class="profile-header card">
+    <view class="user-info flex-center">
+      <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-info-text ml-20">
+        <text class="user-name">{{userInfo.nickName}}</text>
+        <text class="user-desc text-muted">欢迎回来，温暖邂逅每一天</text>
       </view>
     </view>
   </view>
 
-  <view class="match-history card">
-    <view class="section-title">好友申请</view>
-    <view class="history-list">
-      <view class="history-item" wx:for="{{friendRequests}}" wx:key="id">
-        <image class="match-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
-        <view class="match-details">
-          <view class="match-name">{{item.name}}</view>
-          <view class="match-time">{{item.time}}</view>
-          <view class="match-status">{{item.status}}</view>
-        </view>
-        <view class="match-actions" wx:if="{{item.status === 'pending'}}">
-          <button class="action-btn" bindtap="handleFriendRequest" data-id="{{item.id}}" data-decision="accept">同意</button>
-          <button class="action-btn" bindtap="handleFriendRequest" data-id="{{item.id}}" data-decision="reject">拒绝</button>
-        </view>
+  <!-- 统计数据 -->
+  <view class="statistics-card card mt-20">
+    <view class="statistics-title">我的数据</view>
+    <view class="statistics-list flex-between">
+      <view class="statistics-item text-center">
+        <text class="statistics-number">{{totalMatches}}</text>
+        <text class="statistics-label text-muted">总匹配次数</text>
+      </view>
+      <view class="statistics-item text-center">
+        <text class="statistics-number">{{friendsCount}}</text>
+        <text class="statistics-label text-muted">好友数量</text>
+      </view>
+      <view class="statistics-item text-center">
+        <text class="statistics-number">{{matchCount}}</text>
+        <text class="statistics-label text-muted">今日剩余</text>
       </view>
     </view>
   </view>
 
-  <view class="match-history card">
+  <!-- 好友列表 -->
+  <view class="friends-section mt-20" wx:if="{{friends.length > 0}}">
     <view class="section-title">我的好友</view>
-    <view class="history-list">
-      <view class="history-item" wx:for="{{friends}}" wx:key="id">
-        <image class="match-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
-        <view class="match-details">
-          <view class="match-name">{{item.name}}</view>
-          <view class="match-time">成为好友：{{item.time}}</view>
+    <view class="friends-list">
+      <view 
+        wx:for="{{friends}}" 
+        wx:key="friend_openid" 
+        class="friend-item card"
+        bindtap="goToChat"
+        data-friend="{{item}}"
+      >
+        <image class="friend-avatar avatar avatar-lg" src="{{item.friend_avatar}}" mode="aspectFill"></image>
+        <view class="friend-info ml-20 flex-grow">
+          <text class="friend-name">{{item.friend_name}}</text>
+          <text class="friend-time text-muted">添加于 {{item.create_time_fmt}}</text>
         </view>
+        <text class="arrow">></text>
       </view>
     </view>
   </view>
 
-  <!-- 匹配历史 -->
-  <view class="match-history card">
-    <view class="section-title">最近匹配</view>
-    <view class="history-list">
-      <view class="history-item" wx:for="{{matchHistory}}" wx:key="id">
-        <image class="match-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
-        <view class="match-details">
-          <view class="match-name">{{item.name}}</view>
-          <view class="match-time">{{item.time}}</view>
-          <view class="match-status {{item.status}}">{{item.statusText}}</view>
-        </view>
-        <view class="match-actions">
-          <button class="action-btn" bindtap="viewChat" data-id="{{item.id}}">查看聊天</button>
-        </view>
-      </view>
-    </view>
+  <!-- 空状态 -->
+  <view wx:if="{{friends.length === 0 && !isLoading}}" class="empty-state card mt-20 text-center">
+    <text class="empty-text text-muted">还没有添加好友哦<br>去匹配认识新朋友吧~</text>
   </view>
 
-  <!-- 设置区域 -->
-  <view class="settings card">
-    <view class="section-title">设置</view>
-    <view class="settings-list">
-      <view class="setting-item" bindtap="goToEditProfile">
-        <text class="setting-icon">👤</text>
-        <text class="setting-text">编辑个人资料</text>
-        <text class="setting-arrow">→</text>
-      </view>
-      <view class="setting-item" bindtap="goToPrivacy">
-        <text class="setting-icon">🔒</text>
-        <text class="setting-text">隐私设置</text>
-        <text class="setting-arrow">→</text>
-      </view>
-      <view class="setting-item" bindtap="goToFeedback">
-        <text class="setting-icon">💬</text>
-        <text class="setting-text">意见反馈</text>
-        <text class="setting-arrow">→</text>
-      </view>
-      <view class="setting-item" bindtap="goToAbout">
-        <text class="setting-icon">ℹ️</text>
-        <text class="setting-text">关于我们</text>
-        <text class="setting-arrow">→</text>
-      </view>
-      <view class="setting-item" bindtap="goToAdmin" wx:if="{{isAdmin}}">
-        <text class="setting-icon">🛡️</text>
-        <text class="setting-text">运营后台</text>
-        <text class="setting-arrow">→</text>
-      </view>
+  <!-- 功能菜单 -->
+  <view class="menu-section mt-30">
+    <view class="menu-item card" bindtap="about">
+      <text class="menu-text">关于我们</text>
+      <text class="arrow">></text>
     </view>
-  </view>
-
-  <!-- 退出登录 -->
-  <button class="logout-btn" bindtap="logout">退出登录</button>
-
-  <view class="card" wx:if="{{showBannerAd}}">
-    <ad unit-id="{{adSlots.profileBanner}}" ad-type="banner" ad-theme="white"></ad>
+    <view class="menu-item card mt-10" bindtap="logout">
+      <text class="menu-text logout-text">退出登录</text>
+      <text class="arrow">></text>
+    </view>
   </view>
 </view>

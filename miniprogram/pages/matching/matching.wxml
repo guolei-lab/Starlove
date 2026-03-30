@@ -1,51 +1,66 @@
-<!-- 年轻人社交微信小程序 - 匹配页面 -->
+<!-- matching.wxml - 聊天匹配页面 v2.0 -->
 <view class="container">
-  <!-- 标题区域 -->
-  <view class="header">
-    <view class="title">正在匹配...</view>
-    <view class="subtitle">为你寻找有缘人</view>
+  <view wx:if="{{isLoading}}" class="loading-container">
+    <text>加载中...</text>
   </view>
 
-  <!-- 匹配动画 -->
-  <view class="match-animation">
-    <view class="match-heart"></view>
-  </view>
-
-  <!-- 匹配提示文字 -->
-  <view class="match-tips">
-    <view class="tip-item" wx:for="{{matchTips}}" wx:key="index">
-      <text class="tip-text">{{item}}</text>
-    </view>
-  </view>
-
-  <!-- 匹配成功区域 -->
-  <view class="match-success card" wx:if="{{matched}}">
-    <view class="success-title">🎉 匹配成功！</view>
-    <view class="matched-user">
-      <image class="user-avatar" src="{{matchedUser.avatarUrl}}" mode="aspectFill"></image>
-      <view class="user-info">
-        <view class="user-name">{{matchedUser.nickName}}</view>
-        <view class="user-desc">{{matchedUser.desc}}</view>
+  <view wx:if="{{!isLoading && matchedUser}}" class="chat-container">
+    <!-- 用户信息头部 -->
+    <view class="chat-header card">
+      <view class="matched-user-info">
+        <image class="avatar avatar-lg" src="{{matchedUser.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-info ml-20">
+          <text class="user-name">{{matchedUser.nickName}}</text>
+          <text class="chat-tip" wx:if="{{!isChatEnded}}">
+            ⏱ {{formatTime(chatTimeLeft)}} 后聊天结束
+          </text>
+          <text class="chat-tip ended" wx:if="{{isChatEnded}}">
+            🔚 聊天已结束
+          </text>
+        </view>
+        <view wx:if="{{!isChatEnded}}" class="time-badge">
+          {{formatTime(chatTimeLeft)}}
+        </view>
       </view>
     </view>
-    <button class="btn-warm start-chat-btn" bindtap="startChat">
-      开始聊天（3分钟）
-    </button>
-  </view>
 
-  <!-- 匹配失败区域 -->
-  <view class="match-fail card" wx:if="{{matchFailed}}">
-    <view class="fail-title">😢 暂时没有找到合适的人</view>
-    <view class="fail-tips">
-      <view class="fail-tip">换个时间再来试试吧</view>
-      <view class="fail-tip">或者去热门话题里转转</view>
+    <!-- 兴趣标签 -->
+    <view wx:if="{{matchedUser.interests && matchedUser.interests.length > 0}}" class="interests-section mt-20">
+      <text wx:for="{{matchedUser.interests}}" wx:key="*this" class="tag">{{item}}</text>
     </view>
-    <button class="btn-warm back-btn" bindtap="goBack">
-      返回首页
-    </button>
-  </view>
 
-  <view class="card" wx:if="{{showBannerAd}}">
-    <ad unit-id="{{adSlots.matchingBanner}}" ad-type="banner" ad-theme="white"></ad>
+    <!-- 消息列表 -->
+    <view class="messages-list mt-20">
+      <view 
+        wx:for="{{messages}}" 
+        wx:key="id" 
+        class="message-item {{item.isSelf ? 'self' : 'other'}}"
+      >
+        <view class="message-content {{item.isSelf ? 'self' : 'other'}}">
+          {{item.content}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 添加好友按钮 (聊天结束后显示) -->
+    <view wx:if="{{isChatEnded}}" class="add-friend-section mt-20">
+      <button class="btn-primary" bindtap="addFriend">
+        添加 {{matchedUser.nickName}} 为好友
+      </button>
+    </view>
+
+    <!-- 底部输入框 -->
+    <view wx:if="{{!isChatEnded}}" class="input-container">
+      <input 
+        class="message-input" 
+        placeholder="输入消息..." 
+        value="{{inputValue}}"
+        bindinput="onInputChange"
+        confirm-type="send"
+        bindconfirm="sendMessage"
+        maxlength="200"
+      />
+      <button class="send-btn" bindtap="sendMessage">发送</button>
+    </view>
   </view>
 </view>

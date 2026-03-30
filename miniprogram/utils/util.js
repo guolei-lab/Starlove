@@ -1,4 +1,9 @@
-// 年轻人社交微信小程序 - 工具函数
+/**
+ * StarLove 通用工具函数
+ * v2.0 优化提取
+ */
+
+// 格式化时间
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -15,51 +20,41 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
-// 生成随机用户ID
-const generateUserId = () => {
-  return 'user_' + Math.random().toString(36).substr(2, 9)
-}
-
-// 格式化时间（相对时间）
-const formatRelativeTime = timestamp => {
-  const now = new Date().getTime()
-  const diff = now - timestamp
+// 格式化日期为友好显示
+const formatDate = dateStr => {
+  const date = new Date(dateStr)
+  const now = new Date()
+  const diff = now.getTime() - date.getTime()
+  const day = Math.floor(diff / (1000 * 60 * 60 * 24))
   
-  const minute = 60 * 1000
-  const hour = minute * 60
-  const day = hour * 24
-  const week = day * 7
-  
-  if (diff < minute) {
-    return '刚刚'
-  } else if (diff < hour) {
-    return `${Math.floor(diff / minute)}分钟前`
-  } else if (diff < day) {
-    return `${Math.floor(diff / hour)}小时前`
-  } else if (diff < week) {
-    return `${Math.floor(diff / day)}天前`
+  if (day === 0) {
+    return '今天'
+  } else if (day === 1) {
+    return '昨天'
+  } else if (day < 7) {
+    return `${day}天前`
   } else {
-    return formatTime(new Date(timestamp))
+    return `${date.getMonth() + 1}月${date.getDate()}日`
   }
 }
 
 // 防抖函数
-const debounce = (func, wait) => {
+function debounce(func, wait) {
   let timeout
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout)
-      func(...args)
-    }
+  return function () {
+    const context = this
+    const args = arguments
     clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
+    timeout = setTimeout(() => {
+      func.apply(context, args)
+    }, wait)
   }
 }
 
 // 节流函数
-const throttle = (func, limit) => {
+function throttle(func, limit) {
   let inThrottle
-  return function() {
+  return function () {
     const args = arguments
     const context = this
     if (!inThrottle) {
@@ -70,15 +65,50 @@ const throttle = (func, limit) => {
   }
 }
 
-// 检查网络状态
-const checkNetwork = () => {
+// 显示加载提示
+function showLoading(title = '加载中...') {
+  wx.showLoading({
+    title,
+    mask: true
+  })
+}
+
+// 隐藏加载提示
+function hideLoading() {
+  wx.hideLoading()
+}
+
+// 显示成功提示
+function showSuccess(title, duration = 1500) {
+  wx.showToast({
+    title,
+    icon: 'success',
+    duration
+  })
+}
+
+// 显示错误提示
+function showError(title, duration = 2000) {
+  wx.showToast({
+    title,
+    icon: 'none',
+    duration
+  })
+}
+
+// 显示模态框，返回Promise
+function showModal(title, content, confirmText = '确定', cancelText = '取消') {
   return new Promise((resolve, reject) => {
-    wx.getNetworkType({
+    wx.showModal({
+      title,
+      content,
+      confirmText,
+      cancelText,
       success: res => {
-        if (res.networkType === 'none') {
-          reject(new Error('网络连接失败'))
+        if (res.confirm) {
+          resolve(true)
         } else {
-          resolve(res.networkType)
+          resolve(false)
         }
       },
       fail: reject
@@ -86,100 +116,107 @@ const checkNetwork = () => {
   })
 }
 
-// 显示加载提示
-const showLoading = (title = '加载中...') => {
-  wx.showLoading({
-    title: title,
-    mask: true
-  })
-}
-
-// 隐藏加载提示
-const hideLoading = () => {
-  wx.hideLoading()
-}
-
-// 显示成功提示
-const showSuccess = (title, duration = 1500) => {
-  wx.showToast({
-    title: title,
-    icon: 'success',
-    duration: duration
-  })
-}
-
-// 显示错误提示
-const showError = (title, duration = 2000) => {
-  wx.showToast({
-    title: title,
-    icon: 'none',
-    duration: duration
-  })
-}
-
-// 确认对话框
-const confirm = (title, content) => {
+// 云函数调用封装，返回Promise
+function callCloudFunction(name, data = {}) {
   return new Promise((resolve, reject) => {
-    wx.showModal({
-      title: title,
-      content: content,
+    wx.cloud.callFunction({
+      name,
+      data,
       success: res => {
-        resolve(res.confirm)
+        if (res.result && typeof res.result.success === 'boolean') {
+          if (res.result.success) {
+            resolve(res.result)
+          } else {
+            reject(res.result)
+          }
+        } else {
+          resolve(res.result)
+        }
+      },
+      fail: err => {
+        console.error(`云函数 ${name} 调用失败:`, err)
+        reject(err)
+      }
+    })
+  })
+}
+
+// 检查网络状态
+function checkNetwork() {
+  return new Promise((resolve, reject) => {
+    wx.getNetworkType({
+      success: res => {
+        if (res.networkType === 'none') {
+          showError('网络连接失败，请检查网络设置')
+          resolve(false)
+        } else {
+          resolve(true)
+        }
       },
       fail: reject
     })
   })
 }
 
-// 本地存储
-const storage = {
-  set(key, value) {
-    try {
-      wx.setStorageSync(key, value)
-    } catch (e) {
-      console.error('存储失败:', e)
-    }
-  },
-  
-  get(key) {
-    try {
-      return wx.getStorageSync(key)
-    } catch (e) {
-      console.error('读取失败:', e)
-      return null
-    }
-  },
-  
-  remove(key) {
-    try {
-      wx.removeStorageSync(key)
-    } catch (e) {
-      console.error('删除失败:', e)
-    }
-  },
-  
-  clear() {
-    try {
-      wx.clearStorageSync()
-    } catch (e) {
-      console.error('清空失败:', e)
-    }
-  }
+// 图片预览
+function previewImage(current, urls) {
+  wx.previewImage({
+    current,
+    urls
+  })
 }
 
-// 导出所有工具函数
+// 验证输入内容，过滤敏感内容
+function validateInput(content) {
+  if (!content || typeof content !== 'string') {
+    return { valid: false, message: '内容不能为空' }
+  }
+  
+  const trimmed = content.trim()
+  if (trimmed.length === 0) {
+    return { valid: false, message: '内容不能为空' }
+  }
+  
+  if (trimmed.length > 500) {
+    return { valid: false, message: '内容太长啦，请控制在500字以内' }
+  }
+  
+  // 简单的敏感内容过滤，可以根据实际需求扩展
+  // 建议结合微信内容安全API进行检测
+  const sensitiveWords = [] // 在这里添加敏感词列表
+  for (const word of sensitiveWords) {
+    if (trimmed.toLowerCase().includes(word.toLowerCase())) {
+      return { valid: false, message: '内容包含不当内容，请修改后重试' }
+    }
+  }
+  
+  return { valid: true, message: '', content: trimmed }
+}
+
+// 生成随机ID
+function generateId(length = 16) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return result
+}
+
 module.exports = {
   formatTime,
   formatNumber,
-  generateUserId,
-  formatRelativeTime,
+  formatDate,
   debounce,
   throttle,
-  checkNetwork,
   showLoading,
   hideLoading,
   showSuccess,
   showError,
-  confirm,
-  storage
+  showModal,
+  callCloudFunction,
+  checkNetwork,
+  previewImage,
+  validateInput,
+  generateId
 }

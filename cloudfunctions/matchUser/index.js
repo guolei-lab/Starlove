@@ -1,4 +1,4 @@
-// 年轻人社交微信小程序 - 匹配用户云函数
+// StarLove - 匹配用户云函数 v2.0
 const cloud = require('wx-server-sdk')
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
@@ -6,6 +6,7 @@ cloud.init({
 
 // 数据库引用
 const db = cloud.database()
+const _ = db.command
 
 /**
  * 匹配用户云函数
@@ -16,44 +17,75 @@ exports.main = async (event, context) => {
   const { userInfo, location, interests } = event
   
   try {
-    // 获取当前用户信息
-    const currentUser = {
-      openid: wxContext.OPENID,
-      ...userInfo
+    // 获取当前用户openid
+    const openid = wxContext.OPENID
+    
+    // 保存或更新当前用户信息到数据库
+    const existingUser = await db.collection('users').where({
+      _openid: openid
+    }).get()
+    
+    if (existingUser.data.length === 0) {
+      // 新用户，创建记录
+      await db.collection('users').add({
+        data: {
+          _openid: openid,
+          nickName: userInfo.nickName,
+          avatarUrl: userInfo.avatarUrl,
+          gender: userInfo.gender || 0,
+          location: location || '',
+          interests: interests || [],
+          createTime: new Date(),
+          updateTime: new Date()
+        }
+      })
+    } else {
+      // 更新用户信息
+      await db.collection('users').where({
+        _openid: openid
+      }).update({
+        data: {
+          nickName: userInfo.nickName,
+          avatarUrl: userInfo.avatarUrl,
+          gender: userInfo.gender || 0,
+          updateTime: new Date()
+        }
+      })
     }
     
     // 从数据库中查找匹配的用户
-    // 这里使用简单的随机匹配算法，实际应用中可以根据更多因素进行匹配
-    const users = await db.collection('users')
-      .where({
-        // 排除自己
-        _openid: db.command.neq(wxContext.OPENID),
-        // 可以根据兴趣、位置等条件筛选
-        // interests: db.command.in(interests)
-      })
-      .limit(10)
-      .get()
+    // 排除自己，查找未匹配过的用户
+    let query = db.collection('users').where({
+      _openid: _.neq(openid)
+    })
+    
+    // 如果有兴趣标签，可以基于兴趣进行初步筛选（可选）
+    // if (interests && interests.length > 0) {
+    //   query = query.where({
+    //     interests: _.elemMatch(_.in(interests))
+    //   })
+    // }
+    
+    const usersResult = await query.limit(20).get()
     
     // 如果没有找到用户，返回空
-    if (users.data.length === 0) {
+    if (usersResult.data.length === 0) {
       return {
         success: false,
-        message: '暂时没有合适的匹配对象',
+        message: '暂时没有合适的匹配对象，请稍后再试',
         data: null
       }
     }
     
     // 随机选择一个用户
-    const randomIndex = Math.floor(Math.random() * users.data.length)
-    const matchedUser = users.data[randomIndex]
+    const randomIndex = Math.floor(Math.random() * usersResult.data.length)
+    const matchedUser = usersResult.data[randomIndex]
     
     // 记录匹配记录
     await db.collection('matches').add({
       data: {
-        user1_openid: wxContext.OPENID,
+        user1_openid: openid,
         user2_openid: matchedUser._openid,
-        user1_info: currentUser,
-        user2_info: matchedUser,
         match_time: new Date(),
         status: 'matched'
       }
@@ -78,6 +110,7 @@ exports.main = async (event, context) => {
     return {
       success: false,
       message: '匹配失败，请稍后重试',
+      error: error.message,
       data: null
     }
   }
