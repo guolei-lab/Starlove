@@ -1,0 +1,28 @@
+.container {
+  padding: 24rpx;
+  background: #f8f8f8;
+  min-height: 100vh;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.history-item {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 12rpx;
+  margin-top: 12rpx;
+}
+
+.action-btn {
+  margin-top: 8rpx;
+}

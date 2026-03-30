@@ -1,0 +1,9 @@
+{
+  "name": "social-api",
+  "version": "1.0.0",
+  "description": "Young social mini program cloud function",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

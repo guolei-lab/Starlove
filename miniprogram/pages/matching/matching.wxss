@@ -1,0 +1,115 @@
+/* 年轻人社交微信小程序 - 匹配页面样式 */
+.container {
+  padding: 40rpx 30rpx;
+  text-align: center;
+}
+
+/* 标题区域 */
+.header {
+  margin-bottom: 60rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FF69B4;
+  margin-bottom: 20rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #FF8C00;
+}
+
+/* 匹配提示文字 */
+.match-tips {
+  margin: 60rpx 0;
+}
+
+.tip-item {
+  margin-bottom: 20rpx;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 匹配成功区域 */
+.match-success {
+  padding: 60rpx 40rpx;
+  text-align: center;
+}
+
+.success-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FF69B4;
+  margin-bottom: 40rpx;
+}
+
+.matched-user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 30rpx;
+  border: 4rpx solid #FFD700;
+}
+
+.user-info {
+  flex: 1;
+  text-align: left;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.user-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.start-chat-btn {
+  width: 80%;
+  font-size: 36rpx;
+  margin-top: 20rpx;
+}
+
+/* 匹配失败区域 */
+.match-fail {
+  padding: 60rpx 40rpx;
+  text-align: center;
+}
+
+.fail-title {
+  font-size: 36rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.fail-tips {
+  margin-bottom: 40rpx;
+}
+
+.fail-tip {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.back-btn {
+  width: 80%;
+  font-size: 32rpx;
+}

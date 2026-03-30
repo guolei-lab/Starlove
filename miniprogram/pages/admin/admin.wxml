@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">运营概览</view>
+    <view>待处理举报：{{overview.pendingReports}}</view>
+    <view>用户总数：{{overview.userCount}}</view>
+    <view>会话总数：{{overview.roomCount}}</view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">近7天趋势</view>
+    <view wx:for="{{trends}}" wx:key="date" class="history-item">
+      <view>{{item.date}}</view>
+      <view>新增用户：{{item.newUsers}} / 新增会话：{{item.newRooms}} / 新增举报：{{item.newReports}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">举报处理</view>
+    <view wx:if="{{!reports.length}}">暂无待处理举报</view>
+    <view wx:for="{{reports}}" wx:key="id" class="history-item">
+      <view>
+        <view>被举报用户：{{item.targetName}}</view>
+        <view>举报人：{{item.reporterName}}</view>
+        <view>原因：{{item.reason}}</view>
+        <view>详情：{{item.detail}}</view>
+        <view>流转：{{item.flowStatus || "pending_review"}}</view>
+        <view>时间：{{item.displayTime}}</view>
+      </view>
+      <view style="margin-top:12rpx;">
+        <button class="action-btn" bindtap="handleReport" data-id="{{item.id}}" data-decision="resolve" data-targetopenid="{{item.targetOpenId}}">通过并处理</button>
+        <button class="action-btn" bindtap="handleReport" data-id="{{item.id}}" data-decision="reject" data-targetopenid="{{item.targetOpenId}}">驳回</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">图片审核队列</view>
+    <view wx:if="{{!moderationTasks.length}}">暂无待审核图片</view>
+    <view wx:for="{{moderationTasks}}" wx:key="id" class="history-item">
+      <view>任务ID：{{item.id}}</view>
+      <image src="{{item.mediaUrl}}" mode="widthFix" style="width: 300rpx; border-radius: 12rpx;" />
+      <view>状态：{{item.status}}</view>
+      <view>时间：{{item.displayTime}}</view>
+      <view style="margin-top:12rpx;">
+        <button class="action-btn" bindtap="handleModeration" data-id="{{item.id}}" data-decision="approve">通过</button>
+        <button class="action-btn" bindtap="handleModeration" data-id="{{item.id}}" data-decision="reject">驳回</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">敏感词管理</view>
+    <input placeholder="输入新敏感词" value="{{newWord}}" bindinput="onWordInput" />
+    <button class="action-btn" bindtap="addWord">添加关键词</button>
+    <view wx:for="{{sensitiveWords}}" wx:key="id" class="history-item">
+      <view>{{item.word}}（{{item.enabled ? "启用" : "停用"}}）</view>
+      <button class="action-btn" bindtap="toggleWord" data-id="{{item.id}}" data-enabled="{{item.enabled}}">
+        {{item.enabled ? "停用" : "启用"}}
+      </button>
+    </view>
+  </view>
+</view>

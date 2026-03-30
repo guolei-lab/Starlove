@@ -1,0 +1,51 @@
+<!-- 年轻人社交微信小程序 - 匹配页面 -->
+<view class="container">
+  <!-- 标题区域 -->
+  <view class="header">
+    <view class="title">正在匹配...</view>
+    <view class="subtitle">为你寻找有缘人</view>
+  </view>
+
+  <!-- 匹配动画 -->
+  <view class="match-animation">
+    <view class="match-heart"></view>
+  </view>
+
+  <!-- 匹配提示文字 -->
+  <view class="match-tips">
+    <view class="tip-item" wx:for="{{matchTips}}" wx:key="index">
+      <text class="tip-text">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 匹配成功区域 -->
+  <view class="match-success card" wx:if="{{matched}}">
+    <view class="success-title">🎉 匹配成功！</view>
+    <view class="matched-user">
+      <image class="user-avatar" src="{{matchedUser.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <view class="user-name">{{matchedUser.nickName}}</view>
+        <view class="user-desc">{{matchedUser.desc}}</view>
+      </view>
+    </view>
+    <button class="btn-warm start-chat-btn" bindtap="startChat">
+      开始聊天（3分钟）
+    </button>
+  </view>
+
+  <!-- 匹配失败区域 -->
+  <view class="match-fail card" wx:if="{{matchFailed}}">
+    <view class="fail-title">😢 暂时没有找到合适的人</view>
+    <view class="fail-tips">
+      <view class="fail-tip">换个时间再来试试吧</view>
+      <view class="fail-tip">或者去热门话题里转转</view>
+    </view>
+    <button class="btn-warm back-btn" bindtap="goBack">
+      返回首页
+    </button>
+  </view>
+
+  <view class="card" wx:if="{{showBannerAd}}">
+    <ad unit-id="{{adSlots.matchingBanner}}" ad-type="banner" ad-theme="white"></ad>
+  </view>
+</view>

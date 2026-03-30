@@ -1,0 +1,172 @@
+/* 年轻人社交微信小程序 - 首页样式 */
+.container {
+  padding: 40rpx 30rpx;
+}
+
+/* 标题区域 */
+.header {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.title {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #FF69B4;
+  text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 20rpx;
+}
+
+.subtitle {
+  font-size: 32rpx;
+  color: #FF8C00;
+  opacity: 0.9;
+}
+
+/* 登录区域 */
+.login-section {
+  text-align: center;
+  padding: 80rpx 40rpx;
+}
+
+.login-btn {
+  width: 80%;
+  margin-top: 40rpx;
+  font-size: 36rpx;
+}
+
+/* 匹配区域 */
+.match-section {
+  text-align: center;
+  padding: 60rpx 40rpx;
+}
+
+.match-info {
+  margin-bottom: 60rpx;
+}
+
+.match-count {
+  font-size: 80rpx;
+  font-weight: bold;
+  color: #FF69B4;
+  margin-bottom: 20rpx;
+}
+
+.count-number {
+  font-size: 100rpx;
+}
+
+.count-text {
+  font-size: 36rpx;
+  color: #FF8C00;
+  opacity: 0.8;
+}
+
+.match-label {
+  font-size: 32rpx;
+  color: #FF8C00;
+}
+
+.match-btn {
+  width: 80%;
+  font-size: 36rpx;
+  padding: 20rpx;
+}
+
+/* 匹配规则 */
+.match-rules {
+  margin-top: 60rpx;
+  text-align: left;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.rule-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  width: 40rpx;
+}
+
+.rule-text {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 热门话题 */
+.hot-topics {
+  margin-top: 40rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #FF69B4;
+  margin-bottom: 30rpx;
+  text-align: left;
+}
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.topic-item {
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 50rpx;
+  padding: 20rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 160rpx;
+  transition: all 0.3s ease;
+}
+
+.topic-item:active {
+  background: rgba(255, 215, 0, 0.2);
+  transform: scale(0.95);
+}
+
+.topic-text {
+  font-size: 24rpx;
+  color: #FF8C00;
+  margin-bottom: 10rpx;
+  font-weight: bold;
+}
+
+.topic-count {
+  font-size: 20rpx;
+  color: #666;
+}
+
+/* 底部导航 */
+.footer {
+  position: fixed;
+  bottom: 20rpx;
+  left: 30rpx;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50rpx;
+  box-shadow: 0 5rpx 15rpx rgba(0, 0, 0, 0.1);
+}
+
+.footer-icon {
+  font-size: 36rpx;
+  margin-bottom: 5rpx;
+}
+
+.footer-text {
+  font-size: 20rpx;
+  color: #666;
+}
