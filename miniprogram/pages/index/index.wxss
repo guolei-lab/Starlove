@@ -122,6 +122,19 @@ page {
   padding-top: 20rpx;
 }
 
+.banner-container {
+  width: 100%;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 32rpx rgba(255, 105, 180, 0.15);
+}
+
+.banner-image {
+  width: 100%;
+  height: 300rpx;
+  border-radius: 24rpx;
+}
+
 .welcome-card {
   padding: 40rpx 24rpx;
 }
