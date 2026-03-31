@@ -4,6 +4,8 @@
     "ignore": [],
     "include": []
   },
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloud": true,
   "setting": {
     "urlCheck": false,
     "es6": true,
@@ -26,6 +28,7 @@
     "useMultiFrameRuntime": true,
     "useApiHook": true,
     "useApiHostProcess": true,
+    "cloudfunctionRoot": "cloudfunctions/",
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
