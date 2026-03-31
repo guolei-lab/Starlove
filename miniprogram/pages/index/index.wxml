@@ -6,7 +6,7 @@
   <!-- 未登录状态 -->
   <view wx:if="{{!isLogin}}" class="login-container text-center">
     <view class="logo-container">
-      <text class="logo-text">StarLove</text>
+      <text class="logo-text">星愿</text>
       <text class="slogan">遇见你，是最美的意外</text>
     </view>
     
@@ -35,6 +35,7 @@
           <text class="count-large count-highlight">{{matchCount}}</text>
            /{{maxMatchCount}}
         </text>
+      </view>
         <button class="btn-primary btn-lg-match" bindtap="startMatch" disabled="{{isMatching}}">
           {{isMatching ? '匹配中...' : '💘 开始匹配'}}
         </button>
@@ -70,5 +71,4 @@
         今日次数已用完，观看广告增加匹配次数
       </text>
     </view>
-  </view>
 </view>
