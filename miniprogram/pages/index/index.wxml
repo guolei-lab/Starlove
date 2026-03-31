@@ -23,18 +23,16 @@
 
   <!-- 已登录状态 -->
   <view wx:if="{{isLogin}}" class="home-container">
-    <!-- 欢迎卡片 -->
+    <!-- 欢迎卡片 - 只保留次数和按钮 -->
     <view class="welcome-card card-blur">
-      <view class="welcome-header">
-        <view class="welcome-text">
-          <text class="welcome-title">StarLove</text>
-          <text class="match-count">
-            💘 今日剩余匹配 <text class="count-highlight">{{matchCount}}</text>/{{maxMatchCount}}
-          </text>
-        </view>
-        <view class="flex-grow"></view>
-        <button class="btn-primary btn-sm" bindtap="startMatch">
-          开始匹配
+      <view class="match-info">
+        <text class="match-count">
+          💘 今日剩余匹配 </text>
+          <text class="count-large count-highlight">{{matchCount}}</text>
+          <text class="match-count"> /{{maxMatchCount}}</text>
+        </text>
+        <button class="btn-primary btn-lg-match" bindtap="startMatch" disabled="{{isMatching}}">
+          {{isMatching ? '匹配中...' : '💘 开始匹配'}}
         </button>
       </view>
     </view>
