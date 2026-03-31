@@ -869,6 +869,78 @@ exports.main = async (event) => {
 
   try {
     switch (action) {
+      case "getCurrentUserInfo": {
+        // 获取当前登录用户信息
+        const user = await getUserByOpenId(openid);
+        if (user) {
+          return ok(user);
+        } else {
+          return fail("用户不存在");
+        }
+      }
+      case "updateUserInfo": {
+        // 更新用户信息
+        const { nickName, avatarUrl, gender, age, bio, birthday } = payload;
+        const existing = await getUserByOpenId(openid);
+        
+        const updateData = {
+          nickName,
+          avatarUrl,
+          gender,
+          age,
+          bio,
+          birthday,
+          updateTime: new Date()
+        };
+
+        if (existing) {
+          await db.collection(COLLECTIONS.users).doc(existing._id).update(updateData);
+          return ok({ ...existing, ...updateData }, "更新成功");
+        } else {
+          const newUser = {
+            _openid: openid,
+            nickName,
+            avatarUrl,
+            gender,
+            age,
+            bio,
+            birthday,
+            status: "active",
+            createTime: new Date(),
+            ...updateData
+          };
+          const res = await db.collection(COLLECTIONS.users).add({ data: newUser });
+          return ok({ ...newUser, _id: res._id }, "创建成功");
+        }
+      }
+      case "getUserInfoByOpenid": {
+        // 根据openid获取用户信息（不返回openid）
+        const { openid: targetOpenid } = payload;
+        const user = await getUserByOpenId(targetOpenid);
+        if (user) {
+          const { _openid, ...rest } = user;
+          return ok(rest);
+        } else {
+          return fail("用户不存在");
+        }
+      }
+      case "searchUsers": {
+        // 搜索用户
+        const { keyword } = payload;
+        const res = await db.collection(COLLECTIONS.users)
+          .where({
+            nickName: db.RegExp({ regexp: keyword, options: 'i' }),
+            _openid: _.neq(openid)
+          })
+          .limit(20)
+          .get();
+        
+        const users = res.data.map(user => {
+          const { _openid, ...rest } = user;
+          return rest;
+        });
+        return ok(users);
+      }
       case "ensureUser":
         return ok(
           { user: await ensureUser(openid, payload.userInfo || {}) },
@@ -925,7 +997,7 @@ exports.main = async (event) => {
       case "adminHandleModerationTask":
         return adminHandleModerationTask(openid, payload.taskId, payload.decision);
       default:
-        return fail("不支持的 action");
+        return fail(`不支持的 action: ${action}`);
     }
   } catch (error) {
     console.error("socialApi error:", error);
