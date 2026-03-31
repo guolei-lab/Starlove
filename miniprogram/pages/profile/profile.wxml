@@ -1,13 +1,9 @@
-<!-- profile.wxml - 个人中心 v2.2 -->
+<!-- profile.wxml - 个人中心 v3.0 -->
 <view class="container">
   <!-- 用户信息头部 -->
   <view wx:if="{{userInfo}}" class="profile-header card-blur">
     <view class="user-info flex-center">
       <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-      <view class="user-info-text ml-20">
-        <text class="user-name">{{userInfo.nickName}}</text>
-        <text class="user-desc text-muted">StarLove 遇见你，是最美的意外</text>
-      </view>
       <view class="flex-grow"></view>
       <button class="btn-outline-sm" bindtap="goToEditProfile">编辑资料</button>
     </view>
@@ -33,7 +29,7 @@
   </view>
 
   <!-- 最近匹配历史 -->
-  <view class="matches-section mt-20" wx:if="{{recentMatches.length > 0}}">
+  <view class="recent-matches-section mt-20" wx:if="{{recentMatches.length > 0}}">
     <view class="section-title">最近匹配</view>
     <view class="matches-list">
       <view 
@@ -78,8 +74,8 @@
   </view>
 
   <!-- 空状态 -->
-  <view wx:if="{{friends.length === 0 && !isLoading}}" class="empty-state card-blur mt-20 text-center">
-    <text class="empty-text text-muted">还没有添加好友哦<br/>去匹配认识新朋友~</text>
+  <view wx:if="{{friends.length === 0 && recentMatches.length === 0 && !isLoading}}" class="empty-state card-blur mt-20 text-center">
+    <text class="empty-text text-muted">还没有匹配和好友记录哦<br/>去首页开始匹配吧~</text>
   </view>
 
   <!-- 功能菜单 -->

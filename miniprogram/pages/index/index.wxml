@@ -1,4 +1,4 @@
-<!--index.wxml - 首页 v2.1 亲密聊天风格-->
+<!--index.wxml - 首页 v3.0 简洁设计-->
 <view class="container">
   <!-- 浪漫渐变背景 -->
   <view class="bg-gradient"></view>
@@ -6,7 +6,7 @@
   <!-- 未登录状态 -->
   <view wx:if="{{!isLogin}}" class="login-container text-center">
     <view class="logo-container">
-      <text class="logo-text">星愿</text>
+      <text class="logo-text">StarLove</text>
       <text class="slogan">遇见你，是最美的意外</text>
     </view>
     
@@ -26,37 +26,16 @@
     <!-- 欢迎卡片 -->
     <view class="welcome-card card-blur">
       <view class="welcome-header">
-        <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-        <view class="welcome-text ml-20">
-          <text class="welcome-title">{{userInfo.nickName}}</text>
+        <view class="welcome-text">
+          <text class="welcome-title">StarLove</text>
           <text class="match-count">
-            💘 今日剩余 <text class="count-highlight">{{matchCount}}</text>/{{maxMatchCount}}
+            💘 今日剩余匹配 <text class="count-highlight">{{matchCount}}</text>/{{maxMatchCount}}
           </text>
         </view>
         <view class="flex-grow"></view>
         <button class="btn-primary btn-sm" bindtap="startMatch">
           开始匹配
         </button>
-      </view>
-    </view>
-
-    <!-- 热门话题热榜 -->
-    <view class="hot-topics-section mt-30">
-      <view class="section-header">
-        <text class="section-title">🔥 热门话题热议中</text>
-        <text class="update-hint text-muted">更新于 {{lastUpdateText}}</text>
-      </view>
-      <view class="topics-list">
-        <view wx:for="{{hotTopics}}" wx:key="id" class="topic-item card-blur">
-          <view class="topic-rank">
-            <text class="rank-text rank-{{index+1}}">{{index+1}}</text>
-          </view>
-          <view class="topic-info flex-grow">
-            <text class="topic-title">{{item.title}}</text>
-            <text class="topic-meta text-muted">{{item.count}} 人正在聊 · {{item.category}}</text>
-          </view>
-          <text class="arrow">></text>
-        </view>
       </view>
     </view>
 
@@ -78,7 +57,7 @@
           <text class="arrow">></text>
         </view>
       </view>
-    </view>
+    </div>
 
     <!-- 匹配提示 -->
     <view class="match-tip-section mt-30 text-center" wx:if="{{matchCount <= 5}}">

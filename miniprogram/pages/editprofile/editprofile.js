@@ -5,10 +5,10 @@ const util = require('../../utils/util.js')
 Page({
   data: {
     userInfo: null,
-    nickName: '',
     genderOptions: ['男', '女', '保密'],
     genderIndex: 0,
     age: '',
+    region: ['', '', ''],
     bio: '',
     saving: false
   },
@@ -16,8 +16,7 @@ Page({
   onLoad() {
     const userInfo = app.globalData.userInfo
     this.setData({
-      userInfo: userInfo,
-      nickName: userInfo.nickName || ''
+      userInfo: userInfo
     })
 
     // 加载已有资料
@@ -30,28 +29,21 @@ Page({
       action: 'getCurrentUserInfo'
     }).then(res => {
       if (res.success && res.data) {
-        const { nickName, gender, age, bio, avatarUrl } = res.data
+        const { gender, age, bio, province, city } = res.data
         this.setData({
-          nickName: nickName || this.data.nickName,
           genderIndex: gender === '女' ? 1 : gender === '保密' ? 2 : 0,
           age: age ? String(age) : '',
+          region: province && city ? [province, city, ''] : ['', '', ''],
           bio: bio || ''
         })
-        if (avatarUrl) {
+        if (res.data.avatarUrl) {
           this.setData({
-            'userInfo.avatarUrl': avatarUrl
+            'userInfo.avatarUrl': res.data.avatarUrl
           })
         }
       }
     }).catch(err => {
       console.error('加载资料失败', err)
-    })
-  },
-
-  // 昵称输入
-  onNickNameInput(e) {
-    this.setData({
-      nickName: e.detail.value
     })
   },
 
@@ -69,6 +61,13 @@ Page({
     })
   },
 
+  // 地区选择
+  onRegionChange(e) {
+    this.setData({
+      region: e.detail.value
+    })
+  },
+
   // 简介输入
   onBioInput(e) {
     this.setData({
@@ -78,13 +77,8 @@ Page({
 
   // 保存资料
   saveProfile() {
-    const { nickName, genderIndex, age, bio } = this.data
+    const { genderIndex, age, region, bio } = this.data
     const userInfo = app.globalData.userInfo
-
-    if (!nickName.trim()) {
-      util.showError('请输入昵称')
-      return
-    }
 
     if (!age) {
       util.showError('请输入年龄')
@@ -101,10 +95,12 @@ Page({
     util.callCloudFunction('socialApi', {
       action: 'updateUserInfo',
       payload: {
-        nickName: nickName.trim(),
+        nickName: userInfo.nickName || '',
         avatarUrl: userInfo.avatarUrl, // 我们生成的头像
         gender: this.data.genderOptions[genderIndex],
         age: parseInt(age),
+        province: region[0] || '',
+        city: region[1] || '',
         bio: bio.trim()
       }
     }).then(res => {
@@ -113,22 +109,29 @@ Page({
         // 更新全局信息
         app.globalData.userInfo = {
           ...userInfo,
-          nickName: nickName.trim(),
           gender: this.data.genderOptions[genderIndex],
           age: parseInt(age),
+          province: region[0],
+          city: region[1],
           bio: bio.trim()
         }
-        this.setData({ saving: false })
+        this.setData({
+          saving: false
+        })
         // 返回个人中心
         wx.navigateBack()
       } else {
         util.showError(res.message || '保存失败')
-        this.setData({ saving: false })
+        this.setData({
+          saving: false
+        })
       }
     }).catch(err => {
       console.error('保存失败', err)
       util.showError('保存失败，请稍后重试')
-      this.setData({ saving: false })
+      this.setData({
+        saving: false
+      })
     })
   }
 })

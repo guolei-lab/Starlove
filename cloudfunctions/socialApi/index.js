@@ -880,16 +880,17 @@ exports.main = async (event) => {
       }
       case "updateUserInfo": {
         // 更新用户信息
-        const { nickName, avatarUrl, gender, age, bio, birthday } = payload;
+        const { nickName, avatarUrl, gender, age, bio, province, city } = payload;
         const existing = await getUserByOpenId(openid);
         
         const updateData = {
-          nickName,
+          nickName: nickName || '',
           avatarUrl,
           gender,
           age,
+          province,
+          city,
           bio,
-          birthday,
           updateTime: new Date()
         };
 
@@ -899,12 +900,13 @@ exports.main = async (event) => {
         } else {
           const newUser = {
             _openid: openid,
-            nickName,
+            nickName: nickName || '',
             avatarUrl,
             gender,
             age,
+            province,
+            city,
             bio,
-            birthday,
             status: "active",
             createTime: new Date(),
             ...updateData
