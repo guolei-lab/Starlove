@@ -1,7 +1,7 @@
 {
   "name": "starlove",
   "version": "2.0.0",
-  "description": "StarLove - 年轻人温暖社交微信小程序",
+  "description": "星愿 - 年轻人温暖社交微信小程序",
   "main": "miniprogram/app.js",
   "scripts": {
     "deploy:functions": "npm run deploy:matchUser && npm run deploy:sendMessage && npm run deploy:addFriend && npm run deploy:getUserInfo && npm run deploy:getFriends",
