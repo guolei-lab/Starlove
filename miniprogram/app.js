@@ -28,7 +28,7 @@ App({
     maxMatchCount: 20, // 每日最大匹配次数
     adLoaded: false, // 广告是否加载完成
     adUnitId: 'adunit-your_ad_unit_id', // 广告位ID，需要替换为实际的
-    envId: 'your-environment-id', // 云开发环境ID
+    envId: 'cloudbase-3gv0z379e74c9733', // 云开发环境ID
     currentMatch: null // 当前正在聊天的匹配对象
   },
 
