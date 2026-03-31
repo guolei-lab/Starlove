@@ -1,37 +1,15 @@
-<!-- profile.wxml - 个人中心 v2.1 支持完善资料 -->
+<!-- profile.wxml - 个人中心 v2.2 -->
 <view class="container">
-  <!-- 用户信息头部 + 资料编辑 -->
+  <!-- 用户信息头部 -->
   <view wx:if="{{userInfo}}" class="profile-header card-blur">
     <view class="user-info flex-center">
       <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
       <view class="user-info-text ml-20">
         <text class="user-name">{{userInfo.nickName}}</text>
-        <text class="user-desc text-muted">专属二次元头像已生成</text>
+        <text class="user-desc text-muted">StarLove 遇见你，是最美的意外</text>
       </view>
-    </view>
-
-    <!-- 资料编辑表单 -->
-    <view class="profile-form mt-30">
-      <view class="form-item">
-        <text class="form-label">性别</text>
-        <picker range="{{genderOptions}}" bindchange="onGenderChange" value="{{genderIndex}}">
-          <text class="form-value">{{genderOptions[genderIndex]}}</text>
-          <text class="arrow">></text>
-        </picker>
-      </view>
-      <view class="form-item">
-        <text class="form-label">年龄</text>
-        <input class="form-input" type="number" placeholder="输入你的年龄" value="{{age}}" bindinput="onAgeInput"></input>
-      </view>
-      <view class="form-item">
-        <text class="form-label">个人简介</text>
-        <textarea class="form-textarea" placeholder="介绍一下自己，让大家更懂你" value="{{bio}}" bindinput="onBioInput" maxlength="100"></textarea>
-        <text class="count-hint text-muted">{{bio.length}}/100</text>
-      </view>
-
-      <button class="btn-primary btn-block mt-30" bindtap="saveProfile" loading="{{saving}}">
-        {{saving ? '保存中...' : '保存资料'}}
-      </button>
+      <view class="flex-grow"></view>
+      <button class="btn-outline-sm" bindtap="goToEditProfile">编辑资料</button>
     </view>
   </view>
 

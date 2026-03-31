@@ -1,0 +1,38 @@
+<!-- editprofile.wxml - 编辑个人资料 -->
+<view class="container">
+  <view class="edit-card card-blur">
+    <!-- 头像预览 -->
+    <view class="avatar-section text-center">
+      <image class="avatar-preview" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <text class="avatar-hint text-muted">专属二次元头像已自动生成</text>
+    </view>
+
+    <!-- 编辑表单 -->
+    <view class="edit-form mt-30">
+      <view class="form-item">
+        <text class="form-label">昵称</text>
+        <input class="form-input" value="{{nickName}}" bindinput="onNickNameInput" placeholder="你的昵称"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">性别</text>
+        <picker range="{{genderOptions}}" bindchange="onGenderChange" value="{{genderIndex}}">
+          <text class="form-value">{{genderOptions[genderIndex]}}</text>
+          <text class="arrow">></text>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="form-label">年龄</text>
+        <input class="form-input" type="number" placeholder="输入你的年龄" value="{{age}}" bindinput="onAgeInput"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">个人简介</text>
+        <textarea class="form-textarea" placeholder="介绍一下自己，让大家更懂你（100字以内）" value="{{bio}}" bindinput="onBioInput" maxlength="100"></textarea>
+        <text class="count-hint text-muted">{{bio.length}}/100</text>
+      </view>
+
+      <button class="btn-primary btn-block mt-40" bindtap="saveProfile" loading="{{saving}}">
+        {{saving ? '保存中...' : '保存资料'}}
+      </button>
+    </view>
+  </view>
+</view>

@@ -10,13 +10,7 @@ Page({
     matchCount: 0,
     totalMatches: 0,
     friendsCount: 0,
-    isLoading: false,
-    // 表单相关
-    genderOptions: ['男', '女', '保密'],
-    genderIndex: 0,
-    age: '',
-    bio: '',
-    saving: false
+    isLoading: false
   },
 
   onLoad() {
@@ -24,104 +18,12 @@ Page({
       userInfo: app.globalData.userInfo,
       matchCount: app.globalData.matchCount
     })
-
-    // 尝试加载已有的用户信息
-    this.loadUserInfo()
   },
 
   onShow() {
     this.loadFriends()
     this.loadStatistics()
     this.loadRecentMatches()
-  },
-
-  // 加载已有用户信息
-  loadUserInfo() {
-    util.callCloudFunction('socialApi', {
-      action: 'getCurrentUserInfo'
-    }).then(res => {
-      if (res.success && res.data) {
-        const { gender, age, bio } = res.data
-        this.setData({
-          genderIndex: gender === '女' ? 1 : gender === '保密' ? 2 : 0,
-          age: age ? String(age) : '',
-          bio: bio || ''
-        })
-      }
-    }).catch(err => {
-      console.error('加载用户信息失败', err)
-    })
-  },
-
-  // 性别选择
-  onGenderChange(e) {
-    this.setData({
-      genderIndex: e.detail.value
-    })
-  },
-
-  // 年龄输入
-  onAgeInput(e) {
-    this.setData({
-      age: e.detail.value
-    })
-  },
-
-  // 简介输入
-  onBioInput(e) {
-    this.setData({
-      bio: e.detail.value
-    })
-  },
-
-  // 保存个人资料
-  saveProfile() {
-    const { genderIndex, age, bio } = this.data
-    const userInfo = app.globalData.userInfo
-
-    if (!age) {
-      util.showError('请输入年龄')
-      return
-    }
-
-    if (age < 18 || age > 80) {
-      util.showError('请输入有效年龄')
-      return
-    }
-
-    this.setData({ saving: true })
-
-    util.callCloudFunction('socialApi', {
-      action: 'updateUserInfo',
-      payload: {
-        nickName: userInfo.nickName,
-        avatarUrl: userInfo.avatarUrl, // 这里保存我们生成的头像URL
-        gender: this.data.genderOptions[genderIndex],
-        age: parseInt(age),
-        bio: bio
-      }
-    }).then(res => {
-      if (res.success) {
-        util.showSuccess('资料保存成功')
-        // 更新全局信息
-        app.globalData.userInfo = {
-          ...userInfo,
-          gender: this.data.genderOptions[genderIndex],
-          age: parseInt(age),
-          bio: bio
-        }
-        this.setData({
-          saving: false
-        })
-      } else {
-        util.showError(res.message || '保存失败')
-        this.setData({ saving: false })
-      }
-    }).catch(err => {
-      console.error('保存失败', err)
-      util.showError('保存失败，请稍后重试')
-      this.setData({ saving: false })
-    })
   },
 
   // 加载好友列表
@@ -159,6 +61,13 @@ Page({
       .catch(err => {
         console.error('加载统计数据失败', err)
       })
+  },
+
+  // 跳转到编辑资料页面
+  goToEditProfile() {
+    wx.navigateTo({
+      url: '/pages/editprofile/editprofile'
+    })
   },
 
   // 加载最近匹配历史

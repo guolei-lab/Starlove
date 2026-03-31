@@ -44,6 +44,12 @@ Page({
   // 检查登录状态
   checkLoginStatus() {
     if (app.globalData.userInfo) {
+      // 🔴 即使缓存了，也要保证有头像，没有就重新生成
+      if (!app.globalData.userInfo.avatarUrl || app.globalData.userInfo.avatarUrl.indexOf('default') !== -1) {
+        const seed = Math.random().toString(36).substring(2, 10)
+        const generatedAvatar = `https://api.oneway.love/avatar/?seed=${seed}&style=anime`
+        app.globalData.userInfo.avatarUrl = generatedAvatar
+      }
       this.setData({
         isLogin: true,
         userInfo: app.globalData.userInfo
@@ -57,6 +63,10 @@ Page({
           if (res.authSetting['scope.userInfo']) {
             wx.getUserInfo({
               success: res => {
+                // 🔴 强制生成二次元头像
+                const seed = Math.random().toString(36).substring(2, 10)
+                const generatedAvatar = `https://api.oneway.love/avatar/?seed=${seed}&style=anime`
+                res.userInfo.avatarUrl = generatedAvatar
                 app.globalData.userInfo = res.userInfo
                 this.setData({
                   isLogin: true,

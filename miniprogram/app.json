@@ -3,12 +3,13 @@
     "pages/index/index",
     "pages/matching/matching",
     "pages/chat/chat",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/editprofile/editprofile"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#FFB6C1",
-    "navigationBarTitleText": "星愿",
+    "navigationBarTitleText": "StarLove",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#FFF5F7"
   },
