@@ -9,17 +9,28 @@ Page({
     matchCount: 10,
     maxMatchCount: 20,
     isMatching: false,
+    // 热门话题 - 年轻人关注的话题，分类涵盖恋爱/生活/职场/兴趣
     hotTopics: [
-      { id: 1, title: '你的理想型', count: 2345 },
-      { id: 2, title: '周末去哪玩', count: 1892 },
-      { id: 3, title: '职场新人', count: 1567 },
-      { id: 4, title: '美食探店', count: 1234 }
-    ]
+      { id: 1, title: '恋爱中你最在意什么？', count: 5281, category: '恋爱' },
+      { id: 2, title: '第一次约会去哪里比较好', count: 4892, category: '恋爱' },
+      { id: 3, title: '情侣间每天都聊什么？', count: 4126, category: '恋爱' },
+      { id: 4, title: '你能接受姐弟恋吗？', count: 3875, category: '恋爱' },
+      { id: 5, title: '月薪多少敢谈恋爱', count: 3654, category: '现实' },
+      { id: 6, title: '周末和对象去哪约会', count: 3210, category: '生活' },
+      { id: 7, title: '谈恋爱一定要同居吗', count: 2988, category: '恋爱' },
+      { id: 8, title: '你有过网恋经历吗', count: 2756, category: '恋爱' },
+      { id: 9, title: '工作重要还是对象重要', count: 2541, category: '现实' },
+      { id: 10, title: '分享一下你的暗恋故事', count: 2315, category: '情感' }
+    ],
+    lastUpdateText: ''
   },
 
   onLoad() {
     // 检查用户是否已登录
     this.checkLoginStatus()
+    // 更新话题热门度，模拟动态更新
+    this.updateTopicCounts()
+    this.updateLastUpdateText()
   },
 
   onShow() {
@@ -208,6 +219,34 @@ Page({
   goToProfile() {
     wx.navigateTo({
       url: '/pages/profile/profile'
+    })
+  },
+
+  // 动态更新话题热度，模拟自动更新
+  updateTopicCounts() {
+    const { hotTopics } = this.data
+    // 给每个话题增加一点随机热度，模拟动态更新
+    const updated = hotTopics.map(topic => {
+      const randomAdd = Math.floor(Math.random() * 50)
+      return {
+        ...topic,
+        count: topic.count + randomAdd
+      }
+    })
+    // 按热度排序
+    updated.sort((a, b) => b.count - a.count)
+    this.setData({
+      hotTopics: updated
+    })
+  },
+
+  // 更新最后更新时间文字
+  updateLastUpdateText() {
+    const now = new Date()
+    const hour = now.getHours()
+    const minute = now.getMinutes()
+    this.setData({
+      lastUpdateText: `${hour}:${minute < 10 ? '0' + minute : minute} 更新`
     })
   }
 })

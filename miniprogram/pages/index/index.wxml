@@ -1,45 +1,59 @@
-<!--index.wxml - 首页 v2.0-->
+<!--index.wxml - 首页 v2.1 亲密聊天风格-->
 <view class="container">
+  <!-- 浪漫渐变背景 -->
+  <view class="bg-gradient"></view>
+  
   <!-- 未登录状态 -->
-  <view wx:if="{{!isLogin}}" class="login-container text-center mt-30">
+  <view wx:if="{{!isLogin}}" class="login-container text-center">
     <view class="logo-container">
       <text class="logo-text">StarLove</text>
       <text class="slogan">遇见你，是最美的意外</text>
     </view>
     
-    <view class="login-card card mt-30 scale-in">
+    <view class="login-card card-blur mt-40">
       <image class="login-image" src="/images/welcome.png" mode="aspectFit"></image>
-      <text class="login-title">开启你的温暖邂逅</text>
-      <text class="login-desc text-muted">一键登录，认识有趣的新朋友</text>
+      <text class="login-title">开启温暖邂逅</text>
+      <text class="login-desc text-muted">找到那个懂你的TA，开始亲密聊天</text>
       
-      <button class="btn-primary mt-30" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
-        微信授权登录
+      <button class="btn-primary btn-lg mt-40" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+        一键登录 · 生成专属头像
       </button>
     </view>
   </view>
 
   <!-- 已登录状态 -->
-  <view wx:if="{{isLogin}}" class="home-container fade-in">
-    <!-- 用户信息卡片 -->
-    <view class="user-card card">
-      <view class="user-info flex-center">
+  <view wx:if="{{isLogin}}" class="home-container">
+    <!-- 欢迎卡片 -->
+    <view class="welcome-card card-blur">
+      <view class="welcome-header">
         <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-        <view class="user-details ml-20">
-          <text class="user-name">{{userInfo.nickName}}</text>
-          <text class="match-count text-muted">今日剩余匹配次数: {{matchCount}}/{{maxMatchCount}}</text>
+        <view class="welcome-text ml-20">
+          <text class="welcome-title">欢迎回来，{{userInfo.nickName}}</text>
+          <text class="match-count">
+            💘 今日剩余匹配 <text class="count-highlight">{{matchCount}}</text>/{{maxMatchCount}} 次
+          </text>
         </view>
         <view class="flex-grow"></view>
-        <button class="btn-outline" bindtap="goToProfile">我的</button>
+        <button class="btn-outline-sm" bindtap="goToProfile">我的</button>
       </view>
     </view>
 
-    <!-- 热门话题 -->
-    <view class="topics-section mt-20">
-      <view class="section-title">热门话题</view>
+    <!-- 热门话题热榜 -->
+    <view class="hot-topics-section mt-30">
+      <view class="section-header">
+        <text class="section-title">🔥 热门话题热议中</text>
+        <text class="update-hint text-muted">更新于 {{lastUpdateText}}</text>
+      </view>
       <view class="topics-list">
-        <view wx:for="{{hotTopics}}" wx:key="id" class="topic-item card">
-          <text class="topic-title">{{item.title}}</text>
-          <text class="topic-count text-muted">{{item.count}} 人在聊</text>
+        <view wx:for="{{hotTopics}}" wx:key="id" class="topic-item card-blur">
+          <view class="topic-rank">
+            <text class="rank-text rank-{{index+1}}">{{index+1}}</text>
+          </view>
+          <view class="topic-info flex-grow">
+            <text class="topic-title">{{item.title}}</text>
+            <text class="topic-meta text-muted">{{item.count}} 人正在聊 · {{item.category}}</text>
+          </view>
+          <text class="arrow">></text>
         </view>
       </view>
     </view>
@@ -47,18 +61,18 @@
     <!-- 开始匹配按钮 -->
     <view class="match-section mt-40 text-center">
       <button 
-        class="btn-primary match-btn {{isMatching ? 'matching' : ''}}" 
+        class="btn-primary btn-xl match-btn {{isMatching ? 'matching' : ''}}" 
         bindtap="startMatch"
         disabled="{{isMatching}}"
       >
-        {{isMatching ? '匹配中...' : '开始匹配'}}
+        {{isMatching ? '正在为你匹配...' : '💘 开始匹配'}}
       </button>
-      <text wx:if="{{matchCount <= 5 && matchCount > 0}}" class="match-tip text-muted">
-        剩余次数不多啦，看完广告可以获得更多次数哦
-      </text>
-      <text wx:if="{{matchCount <= 0}}" class="match-tip text-muted">
-        今日次数已用完，观看广告增加次数
-      </text>
+      <view wx:if="{{matchCount <= 5 && matchCount > 0}}" class="match-tip">
+        <text class="match-tip-text">剩余次数不多啦，观看广告可以获得更多次数哦</text>
+      </view>
+      <view wx:if="{{matchCount <= 0}}" class="match-tip">
+        <text class="match-tip-text">今日次数已用完，观看广告增加匹配次数</text>
+      </view>
     </view>
   </view>
 </view>
