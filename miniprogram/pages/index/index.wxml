@@ -1,4 +1,4 @@
-<!--index.wxml - 首页 v3.0 简洁设计-->
+<!--index.wxml - 首页 v3.1 修复标签-->
 <view class="container">
   <!-- 浪漫渐变背景 -->
   <view class="bg-gradient"></view>
@@ -31,9 +31,9 @@
     <view class="welcome-card card-blur mt-20">
       <view class="match-info">
         <text class="match-count">
-          💘 今日剩余匹配 </text>
+          💘 今日剩余匹配 
           <text class="count-large count-highlight">{{matchCount}}</text>
-          <text class="match-count"> /{{maxMatchCount}}</text>
+           /{{maxMatchCount}}
         </text>
         <button class="btn-primary btn-lg-match" bindtap="startMatch" disabled="{{isMatching}}">
           {{isMatching ? '匹配中...' : '💘 开始匹配'}}
@@ -56,15 +56,15 @@
             <text class="topic-title">{{item.title}}</text>
             <text class="topic-meta text-muted">{{item.count}} 人正在聊 · {{item.category}}</text>
           </view>
-          <text class="arrow">></text>
+          <text class="arrow"></text>
         </view>
       </view>
-    </div>
+    </view>
 
     <!-- 匹配提示 -->
     <view class="match-tip-section mt-30 text-center" wx:if="{{matchCount <= 5}}">
       <text wx:if="{{matchCount > 0}}" class="match-tip-text text-muted">
-        剩余次数不多啦，点击右上角开始匹配
+        剩余次数不多啦，点击按钮开始匹配
       </text>
       <text wx:if="{{matchCount <= 0}}" class="match-tip-text text-muted">
         今日次数已用完，观看广告增加匹配次数
