@@ -37,6 +37,8 @@ Page({
         isLogin: true,
         userInfo: app.globalData.userInfo
       })
+      // 即使有缓存的userInfo，也要检查后端是否有用户资料
+      this.checkUserInfoInDB()
     } else {
       // 尝试获取用户信息
       wx.getSetting({
@@ -49,12 +51,45 @@ Page({
                   isLogin: true,
                   userInfo: res.userInfo
                 })
+                this.checkUserInfoInDB()
+              },
+              fail: () => {
+                this.setData({ isLogin: false })
               }
             })
+          } else {
+            // 明确未授权，显示登录按钮
+            this.setData({ isLogin: false })
           }
+        },
+        fail: () => {
+          this.setData({ isLogin: false })
         }
       })
     }
+  },
+
+  // 检查数据库中是否有用户资料
+  checkUserInfoInDB() {
+    util.callCloudFunction('socialApi', {
+      action: 'getCurrentUserInfo'
+    }).then(res => {
+      if (!res.success || !res.data) {
+        // 用户没完善资料，引导去完善
+        wx.showModal({
+          title: '完善个人资料',
+          content: '你的账号还未完善个人资料，请前往完善资料才能开始匹配',
+          showCancel: false,
+          success: () => {
+            wx.navigateTo({
+              url: '/pages/profile/profile'
+            })
+          }
+        })
+      }
+    }).catch(err => {
+      console.error('检查用户信息失败', err)
+    })
   },
 
   // 用户授权登录
