@@ -91,8 +91,8 @@ Page({
       util.showLoading('生成专属头像中...')
       // 使用随机种子生成专属二次元头像，风格包含二次元/校园/情侣
       const seed = Math.random().toString(36).substring(2, 10)
-      // 调用免费头像API生成
-      const generatedAvatar = `https://api.oneway.love/avatar/?seed=${seed}&style=anime`
+      // 调用免费头像API生成 - 使用更稳定的地址
+      const generatedAvatar = `https://pic.api-oneway.love/avatar/anime/?seed=${seed}`
       
       // 用生成的二次元头像替换默认头像
       userInfo.avatarUrl = generatedAvatar
