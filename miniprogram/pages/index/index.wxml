@@ -6,7 +6,7 @@
   <!-- 未登录状态 -->
   <view wx:if="{{!isLogin}}" class="login-container text-center">
     <view class="logo-container">
-      <text class="logo-text">StarLove</text>
+      <text class="logo-text">星愿</text>
       <text class="slogan">遇见你，是最美的意外</text>
     </view>
     
