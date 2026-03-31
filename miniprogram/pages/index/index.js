@@ -97,6 +97,14 @@ Page({
             })
           }
         })
+      } else {
+        // 已经有资料，同步头像到全局（保证头像生成功能生效）
+        if (res.data.avatarUrl && app.globalData.userInfo) {
+          app.globalData.userInfo.avatarUrl = res.data.avatarUrl
+          this.setData({
+            'userInfo.avatarUrl': res.data.avatarUrl
+          })
+        }
       }
     }).catch(err => {
       console.error('检查用户信息失败', err)

@@ -1,18 +1,42 @@
-<!-- profile.wxml - 个人中心 v2.0 -->
+<!-- profile.wxml - 个人中心 v2.1 支持完善资料 -->
 <view class="container">
-  <!-- 用户信息头部 -->
-  <view wx:if="{{userInfo}}" class="profile-header card">
+  <!-- 用户信息头部 + 资料编辑 -->
+  <view wx:if="{{userInfo}}" class="profile-header card-blur">
     <view class="user-info flex-center">
       <image class="avatar avatar-xl" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
       <view class="user-info-text ml-20">
         <text class="user-name">{{userInfo.nickName}}</text>
-        <text class="user-desc text-muted">欢迎回来，温暖邂逅每一天</text>
+        <text class="user-desc text-muted">专属二次元头像已生成</text>
       </view>
+    </view>
+
+    <!-- 资料编辑表单 -->
+    <view class="profile-form mt-30">
+      <view class="form-item">
+        <text class="form-label">性别</text>
+        <picker range="{{genderOptions}}" bindchange="onGenderChange" value="{{genderIndex}}">
+          <text class="form-value">{{genderOptions[genderIndex]}}</text>
+          <text class="arrow">></text>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="form-label">年龄</text>
+        <input class="form-input" type="number" placeholder="输入你的年龄" value="{{age}}" bindinput="onAgeInput"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">个人简介</text>
+        <textarea class="form-textarea" placeholder="介绍一下自己，让大家更懂你" value="{{bio}}" bindinput="onBioInput" maxlength="100"></textarea>
+        <text class="count-hint text-muted">{{bio.length}}/100</text>
+      </view>
+
+      <button class="btn-primary btn-block mt-30" bindtap="saveProfile" loading="{{saving}}">
+        {{saving ? '保存中...' : '保存资料'}}
+      </button>
     </view>
   </view>
 
   <!-- 统计数据 -->
-  <view class="statistics-card card mt-20">
+  <view class="statistics-card card-blur mt-20">
     <view class="statistics-title">我的数据</view>
     <view class="statistics-list flex-between">
       <view class="statistics-item text-center">
@@ -37,7 +61,7 @@
       <view 
         wx:for="{{friends}}" 
         wx:key="friend_openid" 
-        class="friend-item card"
+        class="friend-item card-blur"
         bindtap="goToChat"
         data-friend="{{item}}"
       >
@@ -52,17 +76,17 @@
   </view>
 
   <!-- 空状态 -->
-  <view wx:if="{{friends.length === 0 && !isLoading}}" class="empty-state card mt-20 text-center">
+  <view wx:if="{{friends.length === 0 && !isLoading}}" class="empty-state card-blur mt-20 text-center">
     <text class="empty-text text-muted">还没有添加好友哦<br/>去匹配认识新朋友~</text>
   </view>
 
   <!-- 功能菜单 -->
-  <view class="menu-section mt-30">
-    <view class="menu-item card" bindtap="about">
+  <view class="menu-section mt-30 mb-40">
+    <view class="menu-item card-blur" bindtap="about">
       <text class="menu-text">关于我们</text>
       <text class="arrow">></text>
     </view>
-    <view class="menu-item card mt-10" bindtap="logout">
+    <view class="menu-item card-blur mt-10" bindtap="logout">
       <text class="menu-text logout-text">退出登录</text>
       <text class="arrow">></text>
     </view>

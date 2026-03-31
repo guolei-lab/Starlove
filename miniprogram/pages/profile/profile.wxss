@@ -1,6 +1,24 @@
-/* profile.wxss - 个人中心样式 */
+/* profile.wxss - 个人中心样式 v2.1 */
+page {
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFE6F2 50%, #FFD1E3 100%);
+  min-height: 100vh;
+}
+
+.container {
+  padding: 30rpx 20rpx;
+}
+
+.card-blur {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10rpx);
+  -webkit-backdrop-filter: blur(10rpx);
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8rpx 32rpx rgba(255, 105, 180, 0.1);
+}
+
 .profile-header {
-  margin: 0;
+  padding: 30rpx 24rpx;
 }
 
 .user-info-text {
@@ -19,8 +37,77 @@
   font-size: 26rpx;
 }
 
+/* 表单样式 */
+.profile-form {
+  margin-top: 30rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  width: 140rpx;
+}
+
+.form-value {
+  font-size: 28rpx;
+  color: #666;
+  flex-grow: 1;
+  text-align: right;
+  padding-right: 10rpx;
+}
+
+.form-input {
+  flex-grow: 1;
+  font-size: 28rpx;
+  text-align: right;
+  padding: 10rpx 0;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  font-size: 28rpx;
+  padding: 16rpx;
+  background: #fafafa;
+  border-radius: 12rpx;
+  margin-top: 10rpx;
+  box-sizing: border-box;
+}
+
+.count-hint {
+  text-align: right;
+  font-size: 22rpx;
+  margin-top: 8rpx;
+}
+
+.btn-block {
+  width: 100%;
+  border-radius: 60rpx;
+  padding: 28rpx 0;
+  font-size: 32rpx;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  color: #fff;
+  border: none;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+/* 统计 */
 .statistics-card {
-  margin: 0;
+  padding: 30rpx 24rpx;
 }
 
 .statistics-title {
@@ -52,8 +139,10 @@
 .statistics-label {
   display: block;
   font-size: 24rpx;
+  color: #666;
 }
 
+/* 好友 */
 .friends-section {
   padding: 0 10rpx;
 }
@@ -79,6 +168,21 @@
 
 .friend-avatar {
   margin-right: 20rpx;
+  border-radius: 50%;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.avatar-xl {
+  width: 96rpx;
+  height: 96rpx;
+}
+
+.avatar-lg {
+  width: 80rpx;
+  height: 80rpx;
 }
 
 .friend-info {
@@ -94,6 +198,7 @@
 
 .friend-time {
   font-size: 24rpx;
+  color: #999;
 }
 
 .arrow {
@@ -108,10 +213,13 @@
 .empty-text {
   line-height: 1.8;
   font-size: 28rpx;
+  color: #999;
 }
 
+/* 菜单 */
 .menu-section {
   margin-top: 40rpx;
+  margin-bottom: 40rpx;
 }
 
 .menu-item {
@@ -129,4 +237,34 @@
 
 .logout-text {
   color: #ff4d4f;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #999;
+}
+
+.mt-10 { margin-top: 10rpx; }
+.mt-20 { margin-top: 20rpx; }
+.mt-30 { margin-top: 30rpx; }
+.mb-40 { margin-bottom: 40rpx; }
+
+.ml-20 { margin-left: 20rpx; }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }

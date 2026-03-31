@@ -327,3 +327,20 @@ page {
 .btn-primary::after {
   border: none;
 }
+
+.btn-sm {
+  padding: 12rpx 24rpx;
+  font-size: 26rpx;
+  border-radius: 40rpx;
+  line-height: 1;
+}
+
+.match-tip-section {
+  padding: 20rpx;
+}
+
+.match-tip-text {
+  font-size: 24rpx;
+  color: #888;
+  line-height: 1.6;
+}
