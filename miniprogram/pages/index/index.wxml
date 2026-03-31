@@ -57,7 +57,7 @@
           <text class="arrow">></text>
         </view>
       </view>
-    </div>
+    </view>
 
     <!-- 匹配提示 -->
     <view class="match-tip-section mt-30 text-center" wx:if="{{matchCount <= 5}}">
