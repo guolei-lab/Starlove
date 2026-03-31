@@ -135,6 +135,11 @@ Page({
       
       // 用生成的二次元头像替换默认头像
       userInfo.avatarUrl = generatedAvatar
+
+      // 如果昵称是默认的"微信用户"，也清空让用户自己填
+      if (!userInfo.nickName || userInfo.nickName === '微信用户') {
+        userInfo.nickName = ''
+      }
       
       app.globalData.userInfo = userInfo
       this.setData({

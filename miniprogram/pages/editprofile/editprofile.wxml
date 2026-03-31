@@ -10,8 +10,8 @@
     <!-- 编辑表单 -->
     <view class="edit-form mt-30">
       <view class="form-item">
-        <text class="form-label">昵称</text>
-        <input class="form-input" value="{{nickName}}" bindinput="onNickNameInput" placeholder="你的昵称"></input>
+        <text class="form-label">昵称 *</text>
+        <input class="form-input" value="{{nickName}}" bindinput="onNickNameInput" placeholder="请输入你的昵称"></input>
       </view>
       <view class="form-item">
         <text class="form-label">性别</text>
