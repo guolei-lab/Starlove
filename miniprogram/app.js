@@ -65,6 +65,14 @@ App({
               console.error('获取用户信息失败', err)
             }
           })
+        } else {
+          // 未授权，提示用户需要授权
+          wx.showModal({
+            title: '需要授权登录',
+            content: 'StarLove需要获取你的基本头像昵称信息才能使用，请授权登录',
+            showCancel: false,
+            confirmText: '我知道了'
+          })
         }
       },
       fail: err => {

@@ -66,8 +66,35 @@ Page({
         userInfo: e.detail.userInfo
       })
       util.showSuccess('登录成功')
+
+      // 检查是否已经完善个人信息，如果没有跳转到资料页
+      util.callCloudFunction('socialApi', {
+        action: 'getCurrentUserInfo'
+      }).then(res => {
+        if (!res.success || !res.data) {
+          // 用户还没完善信息，跳转到个人资料页
+          wx.showModal({
+            title: '完善资料',
+            content: '授权成功，请完善你的个人资料，方便更好的匹配',
+            showCancel: false,
+            success: () => {
+              wx.navigateTo({
+                url: '/pages/profile/profile'
+              })
+            }
+          })
+        }
+      }).catch(err => {
+        console.error('检查用户信息失败', err)
+      })
     } else {
-      util.showError('需要授权才能使用')
+      util.showError('需要授权才能使用StarLove')
+      wx.showModal({
+        title: '需要授权',
+        content: 'StarLove需要获取你的微信头像和昵称才能使用，请同意授权登录',
+        showCancel: false,
+        confirmText: '我知道了'
+      })
     }
   },
 
