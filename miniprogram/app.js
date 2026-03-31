@@ -50,33 +50,14 @@ App({
     }
   },
 
-  // 检查用户授权
+  // 检查用户授权 - 不自动登录，清空全局，让用户手动点授权
   checkUserAuth() {
+    // 启动时清空全局用户信息，保证不自动登录
+    this.globalData.userInfo = null
     wx.getSetting({
       success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已授权，获取用户信息
-          wx.getUserInfo({
-            success: res => {
-              this.globalData.userInfo = res.userInfo
-              console.log('用户信息获取成功')
-            },
-            fail: err => {
-              console.error('获取用户信息失败', err)
-            }
-          })
-        } else {
-          // 未授权，提示用户需要授权
-          wx.showModal({
-            title: '需要授权登录',
-            content: 'StarLove需要获取你的基本头像昵称信息才能使用，请授权登录',
-            showCancel: false,
-            confirmText: '我知道了'
-          })
-        }
-      },
-      fail: err => {
-        console.error('获取授权信息失败', err)
+        // 即使之前授权过，也不清空，让用户重新走登录流程保证头像生成
+        // 如果需要重新生成头像，必须重新授权
       }
     })
   },

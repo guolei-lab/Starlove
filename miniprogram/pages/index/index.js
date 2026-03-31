@@ -41,53 +41,14 @@ Page({
     })
   },
 
-  // 检查登录状态
+  // 检查登录状态 - 强制不自动登录，让用户手动点击授权按钮
   checkLoginStatus() {
-    if (app.globalData.userInfo) {
-      // 🔴 即使缓存了，也要保证有头像，没有就重新生成
-      if (!app.globalData.userInfo.avatarUrl || app.globalData.userInfo.avatarUrl.indexOf('default') !== -1) {
-        const seed = Math.random().toString(36).substring(2, 10)
-        const generatedAvatar = `https://api.oneway.love/avatar/?seed=${seed}&style=anime`
-        app.globalData.userInfo.avatarUrl = generatedAvatar
-      }
-      this.setData({
-        isLogin: true,
-        userInfo: app.globalData.userInfo
-      })
-      // 即使有缓存的userInfo，也要检查后端是否有用户资料
-      this.checkUserInfoInDB()
-    } else {
-      // 尝试获取用户信息
-      wx.getSetting({
-        success: res => {
-          if (res.authSetting['scope.userInfo']) {
-            wx.getUserInfo({
-              success: res => {
-                // 🔴 强制生成二次元头像
-                const seed = Math.random().toString(36).substring(2, 10)
-                const generatedAvatar = `https://api.oneway.love/avatar/?seed=${seed}&style=anime`
-                res.userInfo.avatarUrl = generatedAvatar
-                app.globalData.userInfo = res.userInfo
-                this.setData({
-                  isLogin: true,
-                  userInfo: res.userInfo
-                })
-                this.checkUserInfoInDB()
-              },
-              fail: () => {
-                this.setData({ isLogin: false })
-              }
-            })
-          } else {
-            // 明确未授权，显示登录按钮
-            this.setData({ isLogin: false })
-          }
-        },
-        fail: () => {
-          this.setData({ isLogin: false })
-        }
-      })
-    }
+    // 👉 启动时一定清空，保证不自动登录，必须用户手动点授权
+    app.globalData.userInfo = null
+    this.setData({
+      isLogin: false,
+      userInfo: null
+    })
   },
 
   // 检查数据库中是否有用户资料
