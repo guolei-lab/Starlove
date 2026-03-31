@@ -1,75 +1,191 @@
-/* chat.wxss - 好友聊天样式 */
-.chat-container {
-  padding-bottom: 140rpx;
+/* chat.wxss - 聊天页面样式 v3.0 */
+page {
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFE6F2 50%, #FFD1E3 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 顶部用户信息栏 */
+.user-info-bar {
+  margin: 20rpx 20rpx 0;
+  padding: 24rpx 30rpx;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10rpx);
+  -webkit-backdrop-filter: blur(10rpx);
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8rpx 32rpx rgba(255, 105, 180, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-name {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.hot-topics {
+  display: flex;
+  gap: 10rpx;
+}
+
+.topic-tag {
+  padding: 8rpx 16rpx;
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  color: #fff;
+  font-size: 22rpx;
+  border-radius: 20rpx;
+  white-space: nowrap;
+}
+
+/* 聊天容器 */
+.chat-container {
+  flex: 1;
+  position: relative;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 倒计时水印背景 */
+.countdown-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+}
+
+.countdown-text {
+  font-size: 200rpx;
+  font-weight: bold;
+  color: #FF69B4;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 32rpx;
+  color: #333;
+  display: block;
+}
+
+/* 消息列表 */
 .messages-list {
-  min-height: 400rpx;
-  padding: 0 10rpx;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 20rpx;
 }
 
 .message-item {
   display: flex;
-  margin-bottom: 20rpx;
+  margin-bottom: 30rpx;
+  align-items: flex-end;
 }
 
-.message-item.self {
-  justify-content: flex-end;
+.message-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  flex-shrink: 0;
+}
+
+.message-avatar.avatar {
+  border-radius: 50%;
+}
+
+.message-avatar.self {
+  order: 2;
+  margin-left: 20rpx;
+}
+
+.message-avatar.other {
+  margin-right: 20rpx;
 }
 
 .message-content {
   max-width: 70%;
-  padding: 20rpx 24rpx;
-  border-radius: 20rpx;
-  background: white;
-  color: #333;
-  font-size: 28rpx;
+  padding: 24rpx 30rpx;
+  border-radius: 32rpx;
+  font-size: 30rpx;
   line-height: 1.5;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .message-content.self {
   background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
-  color: white;
+  color: #fff;
+  border-bottom-right-radius: 8rpx;
 }
 
 .message-content.other {
-  background: white;
+  background: #fff;
   color: #333;
+  border-bottom-left-radius: 8rpx;
 }
 
+/* 空状态 */
+.empty-state {
+  margin-top: 100rpx;
+  padding: 60rpx 20rpx;
+}
+
+.text-muted {
+  color: #999;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+
+/* 底部输入框 */
 .input-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   align-items: center;
+  gap: 20rpx;
   padding: 20rpx;
-  background: white;
-  border-top: 1rpx solid #eee;
-  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  background: #fff;
+  border-top: 1rpx solid #f0f0f0;
+  position: sticky;
+  bottom: 0;
 }
 
 .message-input {
   flex-grow: 1;
-  min-height: 70rpx;
-  padding: 16rpx 20rpx;
+  min-height: 80rpx;
+  padding: 20rpx 30rpx;
   background: #f5f5f5;
-  border-radius: 35rpx;
-  font-size: 28rpx;
-  margin-right: 20rpx;
+  border-radius: 60rpx;
+  font-size: 32rpx;
 }
 
 .send-btn {
+  flex-shrink: 0;
+  padding: 20rpx 40rpx;
   background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
-  color: white;
-  border-radius: 35rpx;
-  padding: 16rpx 32rpx;
-  font-size: 28rpx;
-  border: none;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 60rpx;
+  line-height: 1;
 }
 
-.empty-state {
-  padding: 60rpx 20rpx;
+.loading-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.avatar {
+  border-radius: 50%;
 }

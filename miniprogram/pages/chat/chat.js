@@ -1,4 +1,4 @@
-// StarLove - 好友聊天页面 v2.0（新增）
+// chat.js - 聊天页面 v3.0 带倒计时
 const app = getApp()
 const util = require('../../utils/util.js')
 
@@ -7,116 +7,130 @@ Page({
     friend: null,
     messages: [],
     inputValue: '',
-    isLoading: false
+    isLoading: true,
+    // 倒计时 180秒 = 3分钟
+    countdown: 180,
+    // 推荐话题
+    recommendTopics: [
+      '哈喽~ 你好呀',
+      '很高兴认识你',
+      '有空一起出来玩吗'
+    ]
   },
 
   onLoad(options) {
-    if (options.friend) {
-      try {
-        const friend = JSON.parse(decodeURIComponent(options.friend))
-        this.setData({
-          friend
-        })
-        // 设置导航栏标题
-        wx.setNavigationBarTitle({
-          title: friend.friend_name
-        })
-        // 加载消息记录
-        this.loadMessages()
-      } catch (err) {
-        console.error('解析好友信息失败', err)
-        util.showError('好友信息错误')
-        setTimeout(() => {
-          wx.navigateBack()
-        }, 1500)
-      }
-    } else {
-      util.showError('未找到好友信息')
-      setTimeout(() => {
-        wx.navigateBack()
-      }, 1500)
-    }
+    const friend = JSON.parse(decodeURIComponent(options.friend))
+    this.setData({
+      friend: friend
+    })
+
+    this.loadMessages()
+    this.startCountdown()
   },
 
-  // 加载消息记录
+  // 开始倒计时
+  startCountdown() {
+    this.setData({
+      countdown: 180
+    })
+
+    const timer = setInterval(() => {
+      let countdown = this.data.countdown - 1
+      if (countdown <= 0) {
+        clearInterval(timer)
+        this.setData({ countdown: 0 })
+        wx.showModal({
+          title: '聊天倒计时结束',
+          content: '聊得开心就添加好友继续聊吧',
+          showCancel: false
+        })
+        return
+      }
+      this.setData({ countdown })
+    }, 1000)
+  },
+
+  // 加载消息
   loadMessages() {
     this.setData({ isLoading: true })
-    
+    const friendOpenid = this.data.friend._openid
+
     util.callCloudFunction('getMessages', {
-      friendOpenid: this.data.friend.friend_openid
-    })
-      .then(res => {
-        if (res.data && res.data.messages) {
-          // 标记消息为已读
-          this.setData({
-            messages: res.data.messages
-          })
-          // 滚动到底部
-          this.scrollToBottom()
-        }
-      })
-      .catch(err => {
-        console.error('加载消息失败', err)
-        util.showError(err.message || '加载消息失败')
-      })
-      .finally(() => {
-        this.setData({ isLoading: false })
-      })
-  },
-
-  // 发送消息
-  sendMessage() {
-    const validation = util.validateInput(this.data.inputValue)
-    if (!validation.valid) {
-      util.showError(validation.message)
-      return
-    }
-
-    const message = {
-      id: Date.now(),
-      content: validation.content,
-      isSelf: true,
-      create_time: new Date().toISOString()
-    }
-
-    const messages = [...this.data.messages, message]
-    this.setData({
-      messages,
-      inputValue: ''
-    })
-
-    // 滚动到底部
-    this.scrollToBottom()
-
-    // 调用云函数发送消息
-    util.callCloudFunction('sendMessage', {
-      toOpenid: this.data.friend.friend_openid,
-      content: validation.content
-    })
-      .catch(err => {
-        console.error('发送消息失败', err)
-        util.showError(err.message || '发送失败，请重试')
-        // 移除发送失败的消息
-        this.setData({
-          messages: this.data.messages.filter(m => m.id !== message.id)
+      withOpenid: friendOpenid
+    }).then(res => {
+      if (res.success && res.data) {
+        // 标记是否自己发的
+        const processed = res.data.map(msg => {
+          return {
+            ...msg,
+            isSelf: msg.fromOpenid === app.globalData.userInfo._openid || msg.fromOpenid === app.globalData.userInfo.openid
+          }
         })
-      })
+        this.setData({
+          messages: processed
+        })
+      }
+      this.setData({ isLoading: false })
+    }).catch(err => {
+      console.error('加载消息失败', err)
+      util.showError('加载消息失败，请稍后重试')
+      this.setData({ isLoading: false })
+    })
   },
 
-  // 输入框内容变化
+  // 输入变化
   onInputChange(e) {
     this.setData({
       inputValue: e.detail.value
     })
   },
 
-  // 滚动到底部
-  scrollToBottom() {
-    setTimeout(() => {
-      wx.pageScrollTo({
-        scrollTop: 99999,
-        duration: 300
-      })
-    }, 100)
+  // 快速选择推荐话题
+  selectTopic(e) {
+    const topic = this.data.recommendTopics[e.currentTarget.dataset.index]
+    this.setData({
+      inputValue: topic
+    })
+    this.sendMessage()
+  },
+
+  // 发送消息
+  sendMessage() {
+    const content = this.data.inputValue.trim()
+    if (!content) {
+      util.showError('请输入消息内容')
+      return
+    }
+
+    const friend = this.data.friend
+    util.showLoading('发送中...')
+
+    util.callCloudFunction('sendMessage', {
+      toOpenid: friend._openid,
+      content: content,
+      type: 'text'
+    }).then(res => {
+      util.hideLoading()
+      if (res.success) {
+        this.setData({
+          inputValue: ''
+        })
+        // 重新加载消息
+        this.loadMessages()
+      } else {
+        util.showError(res.message || '发送失败，请稍后重试')
+      }
+    }).catch(err => {
+      util.hideLoading()
+      console.error('发送失败', err)
+      util.showError('发送失败，请稍后重试')
+    })
+  },
+
+  onShow() {
+    // 刷新消息
+    if (this.data.friend) {
+      this.loadMessages()
+    }
   }
 })

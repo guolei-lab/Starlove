@@ -1,17 +1,38 @@
-<!-- chat.wxml - 好友聊天页面 v2.0 新增 -->
+<!-- chat.wxml - 聊天页面 v3.0 优化设计 -->
 <view class="container">
-  <view wx:if="{{isLoading && messages.length === 0}}" class="loading-container">
-    <text>加载中...</text>
+  <!-- 导航栏下方信息栏 -->
+  <view class="user-info-bar card-blur">
+    <view class="user-name">{{friend.nickName}}</view>
+    <view class="hot-topics">
+      <view 
+        wx:for="{{recommendTopics}}" 
+        wx:key="index"
+        class="topic-tag"
+        bindtap="selectTopic"
+      >
+        {{item}}
+      </view>
+    </view>
   </view>
 
-  <view wx:if="{{friend}}" class="chat-container">
+  <!-- 聊天区域 - 倒计时水印背景 -->
+  <view class="chat-container">
+    <!-- 倒计时水印背景 -->
+    <view class="countdown-bg" wx:if="{{countdown > 0}}">
+      <text class="countdown-text">{{countdown}}s</text>
+      <text class="countdown-label">聊天倒计时</text>
+    </view>
+
     <!-- 消息列表 -->
-    <view class="messages-list mt-20">
+    <view class="messages-list">
       <view 
         wx:for="{{messages}}" 
-        wx:key="id" 
+        wx:key="_id" 
         class="message-item {{item.isSelf ? 'self' : 'other'}}"
       >
+        <view class="message-avatar {{item.isSelf ? 'self' : 'other'}}">
+          <image class="avatar" src="{{item.isSelf ? userInfo.avatarUrl : friend.avatarUrl}}" mode="aspectFill"></image>
+        </view>
         <view class="message-content {{item.isSelf ? 'self' : 'other'}}">
           {{item.content}}
         </view>
@@ -19,22 +40,22 @@
     </view>
 
     <!-- 空消息提示 -->
-    <view wx:if="{{messages.length === 0 && !isLoading}}" class="empty-state card text-center mt-20">
-      <text class="text-muted">还没有消息，开始聊天吧~</text>
+    <view wx:if="{{messages.length === 0 && !isLoading}}" class="empty-state text-center">
+      <text class="text-muted">开始聊天吧~ 点击右侧话题可以快速发送</text>
     </view>
+  </view>
 
-    <!-- 底部输入框 -->
-    <view class="input-container">
-      <input 
-        class="message-input" 
-        placeholder="输入消息..." 
-        value="{{inputValue}}"
-        bindinput="onInputChange"
-        confirm-type="send"
-        bindconfirm="sendMessage"
-        maxlength="500"
-      />
-      <button class="send-btn" bindtap="sendMessage">发送</button>
-    </view>
+  <!-- 底部输入框 -->
+  <view class="input-container">
+    <input 
+      class="message-input" 
+      placeholder="输入消息..." 
+      value="{{inputValue}}"
+      bindinput="onInputChange"
+      confirm-type="send"
+      bindconfirm="sendMessage"
+      maxlength="200"
+    />
+    <button class="send-btn" bindtap="sendMessage">发送</button>
   </view>
 </view>
