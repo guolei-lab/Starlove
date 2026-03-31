@@ -53,7 +53,7 @@
 
   <!-- 空状态 -->
   <view wx:if="{{friends.length === 0 && !isLoading}}" class="empty-state card mt-20 text-center">
-    <text class="empty-text text-muted">还没有添加好友哦<br>去匹配认识新朋友吧~</text>
+    <text class="empty-text text-muted">还没有添加好友哦<br/>去匹配认识新朋友~</text>
   </view>
 
   <!-- 功能菜单 -->
