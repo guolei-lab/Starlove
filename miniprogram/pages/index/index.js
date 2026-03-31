@@ -95,11 +95,24 @@ Page({
   // 用户授权登录
   onGetUserInfo(e) {
     if (e.detail.userInfo) {
-      app.globalData.userInfo = e.detail.userInfo
+      let userInfo = e.detail.userInfo
+      
+      // 自动生成二次元风格头像
+      util.showLoading('生成专属头像中...')
+      // 使用随机种子生成专属二次元头像，风格包含二次元/校园/情侣
+      const seed = Math.random().toString(36).substring(2, 10)
+      // 调用免费头像API生成
+      const generatedAvatar = `https://api.oneway.love/avatar/?seed=${seed}&style=anime`
+      
+      // 用生成的二次元头像替换默认头像
+      userInfo.avatarUrl = generatedAvatar
+      
+      app.globalData.userInfo = userInfo
       this.setData({
         isLogin: true,
-        userInfo: e.detail.userInfo
+        userInfo: userInfo
       })
+      util.hideLoading()
       util.showSuccess('登录成功')
 
       // 检查是否已经完善个人信息，如果没有跳转到资料页
@@ -110,7 +123,7 @@ Page({
           // 用户还没完善信息，跳转到个人资料页
           wx.showModal({
             title: '完善资料',
-            content: '授权成功，请完善你的个人资料，方便更好的匹配',
+            content: '授权成功，已为你生成专属二次元头像，请完善你的个人资料，方便更好的匹配',
             showCancel: false,
             success: () => {
               wx.navigateTo({
@@ -126,7 +139,7 @@ Page({
       util.showError('需要授权才能使用StarLove')
       wx.showModal({
         title: '需要授权',
-        content: 'StarLove需要获取你的微信头像和昵称才能使用，请同意授权登录',
+        content: 'StarLove需要获取你的微信昵称才能使用，请同意授权登录，我们会为你生成专属二次元风格头像',
         showCancel: false,
         confirmText: '我知道了'
       })
