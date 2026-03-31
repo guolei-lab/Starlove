@@ -1,4 +1,4 @@
-// StarLove - 首页逻辑 v2.0
+// StarLove - 首页逻辑 v2.1 正确登录逻辑
 const app = getApp()
 const util = require('../../utils/util.js')
 
@@ -41,14 +41,23 @@ Page({
     })
   },
 
-  // 检查登录状态 - 强制不自动登录，让用户手动点击授权按钮
+  // 检查登录状态 - 正确逻辑：已登录保持，未登录显示登录按钮
   checkLoginStatus() {
-    // 👉 启动时一定清空，保证不自动登录，必须用户手动点授权
-    app.globalData.userInfo = null
-    this.setData({
-      isLogin: false,
-      userInfo: null
-    })
+    if (app.globalData.userInfo && app.globalData.userInfo.avatarUrl) {
+      // ✅ 用户已经登录并且有头像，直接保持登录
+      this.setData({
+        isLogin: true,
+        userInfo: app.globalData.userInfo
+      })
+      // 检查后端是否已有资料，没有会引导完善
+      this.checkUserInfoInDB()
+    } else {
+      // ❌ 没有登录信息，显示登录按钮
+      this.setData({
+        isLogin: false,
+        userInfo: null
+      })
+    }
   },
 
   // 检查数据库中是否有用户资料
@@ -64,7 +73,7 @@ Page({
           showCancel: false,
           success: () => {
             wx.navigateTo({
-              url: '/pages/profile/profile'
+              url: '/pages/editprofile/editprofile'
             })
           }
         })
@@ -89,7 +98,7 @@ Page({
       
       // 自动生成二次元风格头像
       util.showLoading('生成专属头像中...')
-      // 使用随机种子生成专属二次元头像，风格包含二次元/校园/情侣
+      // 使用随机/昵称生成专属二次元头像，稳定API
       const seed = (userInfo.nickName || Math.random().toString(36).substring(2, 10)).replace(/\s/g, '')
       // 使用 multiavatar 免费API，稳定可靠
       const generatedAvatar = `https://api.multiavatar.com/${seed}.png`
@@ -118,11 +127,11 @@ Page({
           // 用户还没完善信息，跳转到个人资料页
           wx.showModal({
             title: '完善资料',
-            content: '授权成功，已为你生成专属二次元头像，请完善你的个人资料，方便更好的匹配',
+            content: '授权成功，已为你生成专属二次元头像，请完善你的昵称和个人资料，方便更好的匹配',
             showCancel: false,
             success: () => {
               wx.navigateTo({
-                url: '/pages/profile/profile'
+                url: '/pages/editprofile/editprofile'
               })
             }
           })
@@ -134,7 +143,7 @@ Page({
       util.showError('需要授权才能使用StarLove')
       wx.showModal({
         title: '需要授权',
-        content: 'StarLove需要获取你的微信昵称才能使用，请同意授权登录，我们会为你生成专属二次元风格头像',
+        content: 'StarLove需要获取你的基本信息才能使用，请同意授权登录，我们会为你生成专属二次元风格头像',
         showCancel: false,
         confirmText: '我知道了'
       })
