@@ -23,17 +23,17 @@
 
   <!-- 已登录状态 -->
   <view wx:if="{{isLogin}}" class="home-container">
-    <!-- 顶部Banner图片 -->
+    <!-- 顶部Banner图片 - 二次元动漫风格 -->
     <view class="banner-container">
-      <image class="banner-image" src="https://picsum.photos/id/64/600/300" mode="aspectFill"></image>
+      <image class="banner-image" src="https://picx.zhimg.com/70/v2-1d7c8a7f8a0d7b8e8f7d2b8a7f1c8d2f_1440w.jpg" mode="aspectFill"></image>
     </view>
     <!-- 欢迎卡片 - 只保留次数和按钮 -->
     <view class="welcome-card card-blur mt-20">
       <view class="match-info">
+        <text class="match-title">💘 今日剩余匹配</text>
         <text class="match-count">
-          💘 今日剩余匹配 
           <text class="count-large count-highlight">{{matchCount}}</text>
-           /{{maxMatchCount}}
+          <text class="count-total"> /{{maxMatchCount}}</text>
         </text>
         <button class="btn-primary btn-lg-match" bindtap="startMatch" disabled="{{isMatching}}">
           {{isMatching ? '匹配中...' : '💘 开始匹配'}}
