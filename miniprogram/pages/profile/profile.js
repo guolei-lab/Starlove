@@ -6,6 +6,7 @@ Page({
   data: {
     userInfo: null,
     friends: [],
+    recentMatches: [],
     matchCount: 0,
     totalMatches: 0,
     friendsCount: 0,
@@ -31,6 +32,7 @@ Page({
   onShow() {
     this.loadFriends()
     this.loadStatistics()
+    this.loadRecentMatches()
   },
 
   // 加载已有用户信息
@@ -157,6 +159,87 @@ Page({
       .catch(err => {
         console.error('加载统计数据失败', err)
       })
+  },
+
+  // 加载最近匹配历史
+  loadRecentMatches() {
+    util.callCloudFunction('socialApi', {
+      action: 'listMatchHistory'
+    }).then(res => {
+      if (res.success && res.data && res.data.length > 0) {
+        // 处理数据，标记是否已是好友
+        const friendOpenids = this.data.friends.map(f => f._openid || f.friend_openid)
+        const processed = res.data.map(match => {
+          return {
+            ...match,
+            isFriend: friendOpenids.includes(match.toOpenid)
+          }
+        })
+        this.setData({
+          recentMatches: processed
+        })
+      }
+    }).catch(err => {
+      console.error('加载匹配历史失败', err)
+    })
+  },
+
+  // 从匹配历史添加好友 - 需要看广告解锁
+  addFriendFromMatch(e) {
+    const match = e.currentTarget.dataset.match
+    
+    // 检查有没有匹配次数，没有就让看广告
+    if (app.globalData.matchCount <= 0) {
+      wx.showModal({
+        title: '需要观看广告',
+        content: '添加匹配过的用户需要消耗一次匹配次数，观看广告可以获得一次次数',
+        confirmText: '观看广告',
+        cancelText: '取消',
+        success: (res) => {
+          if (res.confirm) {
+            app.showAd()
+            // 广告看完会自动增加次数，这里等一下再执行添加
+            setTimeout(() => {
+              if (app.globalData.matchCount > 0) {
+                this.doAddFriend(match)
+              }
+            }, 1500)
+          }
+        }
+      })
+    } else {
+      // 有次数直接添加
+      this.doAddFriend(match)
+    }
+  },
+
+  // 执行添加好友
+  doAddFriend(match) {
+    if (!app.useMatchCount()) {
+      return
+    }
+    
+    util.showLoading('添加中...')
+    util.callCloudFunction('addFriend', {
+      friendOpenid: match._openid
+    }).then(res => {
+      util.hideLoading()
+      if (res.success) {
+        util.showSuccess('添加好友成功')
+        // 刷新列表
+        this.loadFriends()
+        this.loadRecentMatches()
+      } else {
+        util.showError(res.message || '添加失败')
+        // 回滚次数
+        app.globalData.matchCount += 1
+      }
+    }).catch(err => {
+      util.hideLoading()
+      util.showError('添加失败，请稍后重试')
+      console.error('添加好友失败', err)
+      app.globalData.matchCount += 1
+    })
   },
 
   // 跳转到聊天页面

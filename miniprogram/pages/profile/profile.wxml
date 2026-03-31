@@ -54,6 +54,30 @@
     </view>
   </view>
 
+  <!-- 最近匹配历史 -->
+  <view class="matches-section mt-20" wx:if="{{recentMatches.length > 0}}">
+    <view class="section-title">最近匹配</view>
+    <view class="matches-list">
+      <view 
+        wx:for="{{recentMatches}}" 
+        wx:key="_id" 
+        class="match-item card-blur"
+      >
+        <image class="match-avatar avatar avatar-lg" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+        <view class="match-info ml-20 flex-grow">
+          <text class="match-name">{{item.nickName}}</text>
+          <text class="match-age-gender text-muted">{{item.age}}岁 · {{item.gender}}</text>
+        </view>
+        <view class="match-actions">
+          <button wx:if="{{!item.isFriend}}" class="btn-add-friend btn-primary-sm" bindtap="addFriendFromMatch" data-match="{{item}}">
+            添加好友
+          </button>
+          <text wx:if="{{item.isFriend}}" class="is-friend-tag text-muted">已是好友</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 好友列表 -->
   <view class="friends-section mt-20" wx:if="{{friends.length > 0}}">
     <view class="section-title">我的好友</view>

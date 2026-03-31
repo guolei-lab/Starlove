@@ -254,6 +254,70 @@ page {
 
 .ml-20 { margin-left: 20rpx; }
 
+/* 最近匹配 */
+.matches-section {
+  padding: 0 10rpx;
+}
+
+.matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.match-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  transition: all 0.3s ease;
+}
+
+.match-item:active {
+  transform: scale(0.98);
+}
+
+.match-avatar {
+  border-radius: 50%;
+}
+
+.match-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.match-name {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+
+.match-age-gender {
+  font-size: 24rpx;
+}
+
+.match-actions {
+  text-align: right;
+}
+
+.btn-primary-sm {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+  color: #fff;
+  border: none;
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+  border-radius: 30rpx;
+  line-height: 1;
+}
+
+.btn-primary-sm::after {
+  border: none;
+}
+
+.is-friend-tag {
+  font-size: 24rpx;
+}
+
 .flex-center {
   display: flex;
   align-items: center;

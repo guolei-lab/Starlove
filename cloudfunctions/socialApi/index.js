@@ -966,9 +966,38 @@ exports.main = async (event) => {
         return listFriendRequests(openid, payload.type || "inbox");
       case "listFriends":
         return listFriends(openid);
-      case "listMatchHistory":
-        return listMatchHistory(openid);
+      case "listMatchHistory": {
+        // 获取最近匹配历史，返回匹配到的用户信息
+        const result = await db.collection('matches')
+          .where({ fromOpenid: openid })
+          .orderBy('matchTime', 'desc')
+          .limit(20)
+          .get();
+        
+        // 获取每个匹配到的用户信息
+        const matches = await Promise.all(result.data.map(async (match) => {
+          const user = await getUserByOpenId(match.toOpenid);
+          if (user) {
+            return {
+              _id: match._id,
+              _openid: user._openid,
+              nickName: user.nickName,
+              avatarUrl: user.avatarUrl,
+              gender: user.gender,
+              age: user.age,
+              bio: user.bio,
+              matchTime: match.matchTime
+            };
+          }
+          return null;
+        }));
+
+        // 过滤掉null
+        const validMatches = matches.filter(m => m !== null);
+        return ok(validMatches);
+      }
       case "blockUser":
+
         return blockUser(openid, payload.targetOpenId, payload.reason);
       case "reportUser":
         return reportUser(openid, payload.roomId, payload.reason, payload.detail);
