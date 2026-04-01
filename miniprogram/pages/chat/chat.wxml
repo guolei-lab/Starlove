@@ -1,29 +1,14 @@
 <!-- chat.wxml - 聊天页面 v3.0 优化设计 -->
 <view class="container">
-  <!-- 顶部信息栏 - 永远显示昵称 + 推荐话题（倒计时只是背景，顶部不变） -->
-  <view class="user-info-bar card-blur">
-    <view class="user-name">{{friend.nickName}}</view>
-    <view class="hot-topics">
-      <view 
-        wx:for="{{recommendTopics}}" 
-        wx:key="index"
-        class="topic-tag"
-        bindtap="selectTopic"
-      >
-        {{item}}
-      </view>
-    </view>
-  </view>
-
-  <!-- 聊天区域 - 倒计时水印背景 占满中间整个区域（就是你红框标出来的位置） -->
+  <!-- 整个中间区域（你截图的粉色空白部分） -->
   <view class="chat-container">
-    <!-- 大号倒计时一直显示在这里，不管是否结束，放在整个聊天区域正中间 -->
+    <!-- 大号倒计时一直显示在正中间背景，就是你红框标记的位置 -->
     <view class="countdown-bg">
       <text class="countdown-text">{{countdown}}s</text>
       <text class="countdown-label">聊天倒计时</text>
     </view>
 
-    <!-- 消息列表在倒计时上层 -->
+    <!-- 消息列表浮在倒计时上层 -->
     <view class="messages-list">
       <view 
         wx:for="{{messages}}" 
@@ -41,7 +26,7 @@
 
     <!-- 空消息提示 -->
     <view wx:if="{{messages.length === 0 && !isLoading}}" class="empty-state text-center">
-      <text class="text-muted">开始聊天吧~ 点击上方话题可以快速发送</text>
+      <text class="text-muted">还没有消息，开始聊天吧~</text>
     </view>
   </view>
 
