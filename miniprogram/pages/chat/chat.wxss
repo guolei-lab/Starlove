@@ -35,19 +35,6 @@ page {
   color: #333;
 }
 
-/* 顶部行内聊天结束标签 */
-.end-label-inline {
-  font-size: 28rpx;
-  color: #999;
-  display: flex;
-  align-items: center;
-  gap: 8rpx;
-}
-
-.end-label-inline .icon {
-  font-size: 24rpx;
-}
-
 .hot-topics {
   display: flex;
   gap: 10rpx;

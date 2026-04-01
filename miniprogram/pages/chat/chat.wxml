@@ -1,13 +1,9 @@
 <!-- chat.wxml - 聊天页面 v3.0 优化设计 -->
 <view class="container">
-  <!-- 顶部信息栏 - 不管是否结束都显示昵称，结束状态加文字说明 -->
+  <!-- 顶部信息栏 - 永远显示昵称 + 推荐话题（倒计时只是背景，顶部不变） -->
   <view class="user-info-bar card-blur">
     <view class="user-name">{{friend.nickName}}</view>
-    <view wx:if="{{isChatEnded}}" class="end-label-inline">
-      <text class="icon">⏱️</text>
-      聊天结束
-    </view>
-    <view wx:else class="hot-topics">
+    <view class="hot-topics">
       <view 
         wx:for="{{recommendTopics}}" 
         wx:key="index"
