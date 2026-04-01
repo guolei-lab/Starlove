@@ -1,4 +1,4 @@
-// StarLove - 首页逻辑 v2.1 正确登录逻辑
+// StarLove - 首页逻辑 v4.0 按照设计图重新设计 - 三分钟假装情侣
 const app = getApp()
 const util = require('../../utils/util.js')
 
@@ -9,28 +9,23 @@ Page({
     matchCount: 10,
     maxMatchCount: 20,
     isMatching: false,
-    // 热门话题 - 年轻人关注的话题，分类涵盖恋爱/生活/职场/兴趣
-    hotTopics: [
-      { id: 1, title: '恋爱中你最在意什么？', count: 5281, category: '恋爱' },
-      { id: 2, title: '第一次约会去哪里比较好', count: 4892, category: '恋爱' },
-      { id: 3, title: '情侣间每天都聊什么？', count: 4126, category: '恋爱' },
-      { id: 4, title: '你能接受姐弟恋吗？', count: 3875, category: '恋爱' },
-      { id: 5, title: '月薪多少敢谈恋爱', count: 3654, category: '现实' },
-      { id: 6, title: '周末和对象去哪约会', count: 3210, category: '生活' },
-      { id: 7, title: '谈恋爱一定要同居吗', count: 2988, category: '恋爱' },
-      { id: 8, title: '你有过网恋经历吗', count: 2756, category: '恋爱' },
-      { id: 9, title: '工作重要还是对象重要', count: 2541, category: '现实' },
-      { id: 10, title: '分享一下你的暗恋故事', count: 2315, category: '情感' }
-    ],
-    lastUpdateText: ''
+    // 筛选条件
+    genderText: '找女生',
+    ageText: '不限年龄',
+    distanceText: '不限地区',
+    // 加速匹配开关
+    accelerateMatch: false,
+    // 功能卡片数据
+    pendingMatchCount: 10,
+    // 当前底部tab
+    currentTab: 1
   },
 
   onLoad() {
     // 检查用户是否已登录
     this.checkLoginStatus()
-    // 更新话题热门度，模拟动态更新
-    this.updateTopicCounts()
-    this.updateLastUpdateText()
+    // 初始化筛选文本
+    this.initFilterText()
   },
 
   onShow() {
@@ -241,5 +236,53 @@ Page({
     this.setData({
       lastUpdateText: `${hour}:${minute < 10 ? '0' + minute : minute} 更新`
     })
+  },
+
+  // 初始化筛选文字
+  initFilterText() {
+    // 根据用户性别设置默认筛选
+    if (this.data.userInfo && this.data.userInfo.gender === 1) {
+      // 男生找女生
+      this.setData({ genderText: '找女生' })
+    } else if (this.data.userInfo && this.data.userInfo.gender === 2) {
+      // 女生找男生
+      this.setData({ genderText: '找男生' })
+    }
+  },
+
+  // 加速匹配开关变化
+  onAccelerateChange(e) {
+    this.setData({
+      accelerateMatch: e.detail.value
+    })
+  },
+
+  // 语音匹配
+  goVoiceMatch() {
+    wx.showToast({
+      title: '功能开发中...',
+      icon: 'none'
+    })
+  },
+
+  // 速配好友
+  goFastMatch() {
+    wx.showToast({
+      title: '功能开发中...',
+      icon: 'none'
+    })
+  },
+
+  // 切换底部tab
+  switchTab(e) {
+    const tab = parseInt(e.currentTarget.dataset.tab)
+    this.setData({ currentTab: tab })
+    // 根据tab跳转
+    const pages = ['/pages/profile/profile', '/pages/index/index', '', '']
+    if (pages[tab]) {
+      wx.switchTab({
+        url: pages[tab]
+      })
+    }
   }
 })
