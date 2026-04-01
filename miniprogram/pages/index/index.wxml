@@ -38,21 +38,7 @@
       <!-- 这里放Banner图，设计图里就是粉色占位 -->
     </view>
 
-    <!-- 筛选条件栏 - 和设计图完全一致 -->
-    <view class="filter-bar">
-      <view class="filter-item">
-        <text>{{genderText}}</text>
-        <text class="arrow">⇒</text>
-      </view>
-      <view class="filter-item">
-        <text>{{ageText}}</text>
-        <text class="arrow">⇩</text>
-      </view>
-      <view class="filter-item">
-        <text>{{distanceText}}</text>
-        <text class="arrow">⇩</text>
-      </view>
-    </view>
+    <!-- 筛选条件栏 暂时取消 -->
 
     <!-- 开始匹配卡片 - 和设计图完全一致 -->
     <view class="match-card">

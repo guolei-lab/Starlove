@@ -9,23 +9,15 @@ Page({
     matchCount: 10,
     maxMatchCount: 20,
     isMatching: false,
-    // 筛选条件
-    genderText: '找女生',
-    ageText: '不限年龄',
-    distanceText: '不限地区',
     // 加速匹配开关
     accelerateMatch: false,
     // 功能卡片数据
-    pendingMatchCount: 10,
-    // 当前底部tab
-    currentTab: 1
+    pendingMatchCount: 10
   },
 
   onLoad() {
     // 检查用户是否已登录
     this.checkLoginStatus()
-    // 初始化筛选文本
-    this.initFilterText()
   },
 
   onShow() {
@@ -91,16 +83,8 @@ Page({
     if (e.detail.userInfo) {
       let userInfo = e.detail.userInfo
       
-      // 自动生成二次元风格头像
-      util.showLoading('生成专属头像中...')
-      // 使用随机/昵称生成专属二次元头像，稳定API
-      const seed = (userInfo.nickName || Math.random().toString(36).substring(2, 10)).replace(/\s/g, '')
-      // 使用 multiavatar 免费API，稳定可靠
-      const generatedAvatar = `https://api.multiavatar.com/${seed}.png`
-      
-      // 用生成的二次元头像替换默认头像
-      userInfo.avatarUrl = generatedAvatar
-
+      util.showLoading('登录中...')
+      // 直接使用微信头像，不生成随机头像
       // 如果昵称是默认的"微信用户"，也清空让用户自己填
       if (!userInfo.nickName || userInfo.nickName === '微信用户') {
         userInfo.nickName = ''
@@ -122,7 +106,7 @@ Page({
           // 用户还没完善信息，跳转到个人资料页
           wx.showModal({
             title: '完善资料',
-            content: '授权成功，已为你生成专属二次元头像，请完善你的昵称和个人资料，方便更好的匹配',
+            content: '授权成功，请完善你的昵称和个人资料，方便更好的匹配',
             showCancel: false,
             success: () => {
               wx.navigateTo({
@@ -135,10 +119,10 @@ Page({
         console.error('检查用户信息失败', err)
       })
     } else {
-      util.showError('需要授权才能使用StarLove')
+      util.showError('需要授权才能使用星愿')
       wx.showModal({
         title: '需要授权',
-        content: 'StarLove需要获取你的基本信息才能使用，请同意授权登录，我们会为你生成专属二次元风格头像',
+        content: '星愿需要获取你的基本信息才能使用，请同意授权登录',
         showCancel: false,
         confirmText: '我知道了'
       })
@@ -236,18 +220,6 @@ Page({
     this.setData({
       lastUpdateText: `${hour}:${minute < 10 ? '0' + minute : minute} 更新`
     })
-  },
-
-  // 初始化筛选文字
-  initFilterText() {
-    // 根据用户性别设置默认筛选
-    if (this.data.userInfo && this.data.userInfo.gender === 1) {
-      // 男生找女生
-      this.setData({ genderText: '找女生' })
-    } else if (this.data.userInfo && this.data.userInfo.gender === 2) {
-      // 女生找男生
-      this.setData({ genderText: '找男生' })
-    }
   },
 
   // 加速匹配开关变化
