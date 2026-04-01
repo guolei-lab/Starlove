@@ -1,7 +1,16 @@
 <!-- chat.wxml - 聊天页面 v3.0 优化设计 -->
 <view class="container">
+  <!-- 聊天结束状态卡片 -->
+  <view wx:if="{{isChatEnded}}" class="chat-end-card">
+    <view class="nickname">{{friend.nickName}}</view>
+    <view class="end-label">
+      <text class="icon">⏱️</text>
+      聊天结束
+    </view>
+  </view>
+
   <!-- 导航栏下方信息栏 -->
-  <view class="user-info-bar card-blur">
+  <view wx:else class="user-info-bar card-blur">
     <view class="user-name">{{friend.nickName}}</view>
     <view class="hot-topics">
       <view 
@@ -45,10 +54,10 @@
     </view>
   </view>
 
-  <!-- 底部输入框 -->
-  <view class="input-container">
+  <!-- 底部：聊天未结束显示输入框，已结束显示添加好友卡片 -->
+  <view wx:if="{{!isChatEnded}}" class="input-container">
     <input 
-      class="message-input" 
+      class="message-input"
       placeholder="输入消息..." 
       value="{{inputValue}}"
       bindinput="onInputChange"
@@ -57,5 +66,12 @@
       maxlength="200"
     />
     <button class="send-btn" bindtap="sendMessage">发送</button>
+  </view>
+
+  <!-- 聊天结束后显示添加好友按钮卡片 -->
+  <view wx:else class="add-friend-card">
+    <view class="tip-text">聊天倒计时已结束</view>
+    <view class="tip-desc">聊得开心的话，添加好友继续聊吧</view>
+    <button class="add-friend-btn" bindtap="addFriend">添加好友 {{friend.nickName}}</button>
   </view>
 </view>

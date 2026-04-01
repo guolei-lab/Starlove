@@ -1,4 +1,4 @@
-// chat.js - 聊天页面 v3.0 带倒计时
+// chat.js - 聊天页面 v3.0 带倒计时 + 聊天结束状态
 const app = getApp()
 const util = require('../../utils/util.js')
 
@@ -10,6 +10,8 @@ Page({
     isLoading: true,
     // 倒计时 180秒 = 3分钟
     countdown: 180,
+    // 聊天是否已结束
+    isChatEnded: false,
     // 推荐话题
     recommendTopics: [
       '哈喽~ 你好呀',
@@ -20,12 +22,17 @@ Page({
 
   onLoad(options) {
     const friend = JSON.parse(decodeURIComponent(options.friend))
+    // 检查是否携带过期标记
+    const isChatEnded = options.isChatEnded === '1'
     this.setData({
-      friend: friend
+      friend: friend,
+      isChatEnded: isChatEnded
     })
 
     this.loadMessages()
-    this.startCountdown()
+    if (!isChatEnded) {
+      this.startCountdown()
+    }
   },
 
   // 开始倒计时
@@ -38,7 +45,10 @@ Page({
       let countdown = this.data.countdown - 1
       if (countdown <= 0) {
         clearInterval(timer)
-        this.setData({ countdown: 0 })
+        this.setData({ 
+          countdown: 0,
+          isChatEnded: true
+        })
         wx.showModal({
           title: '聊天倒计时结束',
           content: '聊得开心就添加好友继续聊吧',
@@ -96,6 +106,12 @@ Page({
 
   // 发送消息
   sendMessage() {
+    // 聊天已结束不允许发送
+    if (this.data.isChatEnded) {
+      util.showError('聊天已结束，无法发送消息')
+      return
+    }
+
     const content = this.data.inputValue.trim()
     if (!content) {
       util.showError('请输入消息内容')
@@ -132,5 +148,33 @@ Page({
     if (this.data.friend) {
       this.loadMessages()
     }
+  },
+
+  // 添加好友
+  addFriend() {
+    const friend = this.data.friend
+    // 这里根据你的业务逻辑处理
+    // 比如打开客服会话，或者复制微信号，或者申请添加好友
+    wx.showModal({
+      title: '添加好友',
+      content: `申请添加 ${friend.nickName} 为好友`,
+      success: (res) => {
+        if (res.confirm) {
+          // 调用添加好友云函数
+          util.callCloudFunction('requestAddFriend', {
+            toOpenid: friend._openid
+          }).then(res => {
+            if (res.success) {
+              util.showSuccess('申请已发送')
+            } else {
+              util.showError(res.message || '申请失败')
+            }
+          }).catch(err => {
+            console.error('申请添加好友失败', err)
+            util.showError('申请失败，请稍后重试')
+          })
+        }
+      }
+    })
   }
 })
