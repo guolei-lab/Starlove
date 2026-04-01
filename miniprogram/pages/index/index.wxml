@@ -1,4 +1,4 @@
-<!--index.wxml - 首页 v4.0 按照设计图重新设计 - 三分钟假装情侣 -->
+<!--index.wxml - 首页 v4.1 按照设计图重新设计 - 星愿 三分钟假装情侣 -->
 <view class="container">
   <!-- 渐变粉色背景 -->
   <view class="bg-gradient"></view>
@@ -21,26 +21,28 @@
     </view>
   </view>
 
-  <!-- 已登录状态 - 按照设计图重新设计 -->
+  <!-- 已登录状态 - 完全按照设计图 -->
   <view wx:if="{{isLogin}}" class="home-container">
-    <!-- 顶部标题 -->
-    <view class="app-title">
-      <text class="title-main">💖三分钟</text>
-      <text class="title-art">假装情侣</text>
-      <text class="title-deco1">👉👈</text>
-      <text class="title-deco2">💘</text>
+    <!-- 顶部Banner标题 - 完全按照设计图 -->
+    <view class="top-banner">
+      <text class="tag">💖三分钟</text>
+      <text class="main-title">假装情侣</text>
+      <view class="deco">
+        <text class="deco-hand">👉👈</text>
+        <text class="deco-heart">💘</text>
+      </view>
     </view>
 
-    <!-- 顶部Banner图片 -->
-    <view class="banner-container">
-      <image class="banner-image" src="https://picx.zhimg.com/70/v2-1d7c8a7f8a0d7b8e8f7d2b8a7f1c8d2f_1440w.jpg" mode="aspectFill"></image>
+    <!-- Banner占位区域 - 和设计图一致的浅粉色圆角矩形 -->
+    <view class="banner-placeholder">
+      <!-- 这里放Banner图，设计图里就是粉色占位 -->
     </view>
 
-    <!-- 筛选条件栏 -->
+    <!-- 筛选条件栏 - 和设计图完全一致 -->
     <view class="filter-bar">
       <view class="filter-item">
         <text>{{genderText}}</text>
-        <text class="arrow">⥤</text>
+        <text class="arrow">⇒</text>
       </view>
       <view class="filter-item">
         <text>{{ageText}}</text>
@@ -52,11 +54,13 @@
       </view>
     </view>
 
-    <!-- 大按钮：点击开始匹配 -->
+    <!-- 开始匹配卡片 - 和设计图完全一致 -->
     <view class="match-card">
-      <button class="btn-start-match" bindtap="startMatch" disabled="{{isMatching}}">
-        <text class="btn-start-text">{{isMatching ? '匹配中...' : '点击开始匹配'}}</text>
-      </button>
+      <view class="match-btn-wrap">
+        <button class="btn-start-match" bindtap="startMatch" disabled="{{isMatching}}">
+          <text class="btn-start-text">{{isMatching ? '匹配中...' : '点击开始匹配'}}</text>
+        </button>
+      </view>
       <text class="match-count-text">今日剩余{{matchCount}}次机会</text>
       
       <!-- 加速匹配开关 -->
@@ -77,26 +81,6 @@
         <text class="func-title fast">速配好友</text>
         <text class="func-desc">{{pendingMatchCount}}位好友待添加</text>
         <text class="func-icon fast">👥</text>
-      </view>
-    </view>
-
-    <!-- 底部导航栏 -->
-    <view class="tab-bar">
-      <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-tab="0">
-        <text class="tab-icon">🧑</text>
-        <text class="tab-text">我的</text>
-      </view>
-      <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-tab="1">
-        <text class="tab-icon">😊</text>
-        <text class="tab-text">聊天</text>
-      </view>
-      <view class="tab-item {{currentTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-tab="2">
-        <text class="tab-icon">📝</text>
-        <text class="tab-text">上墙</text>
-      </view>
-      <view class="tab-item {{currentTab === 3 ? 'active' : ''}}" bindtap="switchTab" data-tab="3">
-        <text class="tab-icon">🛍️</text>
-        <text class="tab-text">商店</text>
       </view>
     </view>
   </view>
