@@ -98,7 +98,7 @@ page {
   text-align: center;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.05;
+  opacity: 0.15;
 }
 
 .countdown-text {

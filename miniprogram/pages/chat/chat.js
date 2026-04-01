@@ -8,6 +8,7 @@ Page({
     messages: [],
     inputValue: '',
     isLoading: true,
+    userInfo: {},
     // 倒计时 180秒 = 3分钟
     countdown: 180,
     // 聊天是否已结束
@@ -24,9 +25,15 @@ Page({
     const friend = JSON.parse(decodeURIComponent(options.friend))
     // 检查是否携带过期标记
     const isChatEnded = options.isChatEnded === '1'
+    let countdown = 180
+    if (isChatEnded) {
+      countdown = 0
+    }
     this.setData({
       friend: friend,
-      isChatEnded: isChatEnded
+      isChatEnded: isChatEnded,
+      countdown: countdown,
+      userInfo: app.globalData.userInfo
     })
 
     this.loadMessages()

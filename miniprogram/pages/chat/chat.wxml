@@ -26,8 +26,8 @@
 
   <!-- 聊天区域 - 倒计时水印背景 -->
   <view class="chat-container">
-    <!-- 倒计时水印背景 -->
-    <view class="countdown-bg" wx:if="{{countdown > 0}}">
+    <!-- 倒计时水印背景 - 只要倒计时大于等于0就显示，即使结束了也保留在背景 -->
+    <view class="countdown-bg" wx:if="{{countdown >= 0}}">
       <text class="countdown-text">{{countdown}}s</text>
       <text class="countdown-label">聊天倒计时</text>
     </view>
