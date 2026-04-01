@@ -13,39 +13,6 @@ page {
   height: 100%;
 }
 
-/* 聊天结束状态卡片 */
-.chat-end-card {
-  margin: 20rpx 20rpx 0;
-  padding: 30rpx;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10rpx);
-  -webkit-backdrop-filter: blur(10rpx);
-  border-radius: 24rpx;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8rpx 32rpx rgba(255, 105, 180, 0.1);
-  text-align: center;
-}
-
-.chat-end-card .nickname {
-  font-size: 48rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 16rpx;
-}
-
-.chat-end-card .end-label {
-  font-size: 32rpx;
-  color: #999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10rpx;
-}
-
-.chat-end-card .end-label .icon {
-  font-size: 28rpx;
-}
-
 /* 顶部用户信息栏 */
 .user-info-bar {
   margin: 20rpx 20rpx 0;
@@ -65,6 +32,19 @@ page {
   font-size: 40rpx;
   font-weight: bold;
   color: #333;
+}
+
+/* 顶部行内聊天结束标签 */
+.end-label-inline {
+  font-size: 28rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.end-label-inline .icon {
+  font-size: 24rpx;
 }
 
 .hot-topics {

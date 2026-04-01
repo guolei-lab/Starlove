@@ -1,18 +1,13 @@
 <!-- chat.wxml - 聊天页面 v3.0 优化设计 -->
 <view class="container">
-  <!-- 聊天结束状态卡片 -->
-  <view wx:if="{{isChatEnded}}" class="chat-end-card">
-    <view class="nickname">{{friend.nickName}}</view>
-    <view class="end-label">
+  <!-- 顶部信息栏 - 不管是否结束都显示昵称，结束状态加文字说明 -->
+  <view class="user-info-bar card-blur">
+    <view class="user-name">{{friend.nickName}}</view>
+    <view wx:if="{{isChatEnded}}" class="end-label-inline">
       <text class="icon">⏱️</text>
       聊天结束
     </view>
-  </view>
-
-  <!-- 导航栏下方信息栏 -->
-  <view wx:else class="user-info-bar card-blur">
-    <view class="user-name">{{friend.nickName}}</view>
-    <view class="hot-topics">
+    <view wx:else class="hot-topics">
       <view 
         wx:for="{{recommendTopics}}" 
         wx:key="index"
@@ -24,15 +19,15 @@
     </view>
   </view>
 
-  <!-- 聊天区域 - 倒计时水印背景 -->
+  <!-- 聊天区域 - 倒计时水印背景 占满中间整个区域（就是你红框标出来的位置） -->
   <view class="chat-container">
-    <!-- 倒计时水印背景 - 只要倒计时大于等于0就显示，即使结束了也保留在背景 -->
-    <view class="countdown-bg" wx:if="{{countdown >= 0}}">
+    <!-- 大号倒计时一直显示在这里，不管是否结束，放在整个聊天区域正中间 -->
+    <view class="countdown-bg">
       <text class="countdown-text">{{countdown}}s</text>
       <text class="countdown-label">聊天倒计时</text>
     </view>
 
-    <!-- 消息列表 -->
+    <!-- 消息列表在倒计时上层 -->
     <view class="messages-list">
       <view 
         wx:for="{{messages}}" 
@@ -50,7 +45,7 @@
 
     <!-- 空消息提示 -->
     <view wx:if="{{messages.length === 0 && !isLoading}}" class="empty-state text-center">
-      <text class="text-muted">开始聊天吧~ 点击右侧话题可以快速发送</text>
+      <text class="text-muted">开始聊天吧~ 点击上方话题可以快速发送</text>
     </view>
   </view>
 
@@ -68,7 +63,7 @@
     <button class="send-btn" bindtap="sendMessage">发送</button>
   </view>
 
-  <!-- 聊天结束后显示添加好友按钮卡片 -->
+  <!-- 聊天结束后：输入框消失，显示添加好友卡片 -->
   <view wx:else class="add-friend-card">
     <view class="tip-text">聊天倒计时已结束</view>
     <view class="tip-desc">聊得开心的话，添加好友继续聊吧</view>
